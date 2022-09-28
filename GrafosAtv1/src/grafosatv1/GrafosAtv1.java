@@ -14,8 +14,9 @@ public class GrafosAtv1 {
      **/
     public static void main(String[] args) {
         Graph g = new Graph();
-        g.readFromTxt();
-        g.listVerteces();
+        g.readFromTxtOriented();
+        //g.listEdges();
+        g.buscaEmLargura();
     }
 
 }
