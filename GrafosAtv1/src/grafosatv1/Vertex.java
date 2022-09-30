@@ -42,5 +42,17 @@ public class Vertex <TYPE> {
         this.exitEdges.add(exitEdges);
     }
     
+    public Integer getCustExpecificEdge(Integer data){
+        int cust = 0;
+        
+        for (Edge<TYPE> exitEdge : exitEdges) {
+            //System.out.println(exitEdge.getEnd().getData()+ " "+data.toString());
+            if(exitEdge.getEnd().getData().equals(data.toString())){
+                //System.out.println(exitEdge.getEnd().toString()+ " "+data.toString());
+                cust = (int)exitEdge.getCost();
+            }
+        }
+        return cust;
+    }
     
 }
