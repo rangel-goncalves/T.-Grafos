@@ -11,6 +11,7 @@ public class Graph<TYPE> {
     private ArrayList<Vertex<TYPE>> verteces;
     private ArrayList<Edge<TYPE>> edges;
     private Integer [][] matrixG;
+    private MatrixFloyd floydResult;
     final static int INF = 999999999;
     
     public Graph() {
@@ -96,11 +97,14 @@ public class Graph<TYPE> {
         System.out.println("");
     }
     
-    public void listEdges(){
+    public String listEdges(){
         System.out.println(edges.size());
+        String a = "";
         for (Edge<TYPE> edge : edges) {
-            System.out.println( edge.getStart().getData() +"-->" + edge.getEnd().getData() + " cost:"+edge.getCost() );
+            //System.out.println( edge.getStart().getData() +"-->" + edge.getEnd().getData() + " cost:"+edge.getCost() );
+            a=a+edge.getStart().getData() +"-->" + edge.getEnd().getData() + " cost:"+edge.getCost()+"\n";
         }
+        return a;
     }
     
     public Integer[][] transforIntoMatix(){
@@ -175,26 +179,65 @@ public class Graph<TYPE> {
                 }
             }
         }
-        for (int l = 0; l < r.length; l++) {
+        /*for (int l = 0; l < r.length; l++) {
             for (int m = 0; m < r.length; m++) {
                     System.out.print(r[l][m]+" ");
             }
             System.out.println(" ");
         }
-        printMatrixD(dist, V);
+        printMatrixD(dist,r, V);*/
+        this.floydResult = new MatrixFloyd(r,dist);
     }
     
-    void printMatrixD(int dist[][], int V)
+    void printMatrixD(int dist[][],int [][]r, int V)
     {
         for (int i = 0; i < V; ++i) {
             for (int j = 0; j < V; ++j) {
-                if (dist[i][j] == INF)
+                if (dist[i][j] == INF){
                     System.out.print("-1 ");
-                else
+                }else{
                     System.out.print(dist[i][j] + "   ");
+                }
             }
             System.out.println();
         }
     }
+    
+    public String printedFroydR(){
+        int [][]m =  this.floydResult.getR();
+        String a= "";
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m.length; j++) {
+                //System.out.print(m[i][j]+" ");
+                if(m[i][j]==999999999){
+                    a=a+"INF"+" ";
+                }else{
+                  a=a+m[i][j]+" ";  
+                }
+            }
+            a= a+"\n";
+        }
+        return a;
+    }
+    public String printedFroydD(){
+       int [][]m =  this.floydResult.getD();
+        String a= "";
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m.length; j++) {
+                //System.out.print(m[i][j]+" ");
+                if(m[i][j]==999999999){
+                    a=a+"INF"+" ";
+                }else{
+                  a=a+m[i][j]+" ";  
+                }
+            }
+            a= a+"\n";
+        }
+        return a; 
+    }
+    public String sumFroydD(){
+        return this.floydResult.getSumD();
+    }
+    
     ///////////////////
 }

@@ -2,6 +2,7 @@ package grafosatv1;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import view.view1;
 
 /**
  *
@@ -13,20 +14,28 @@ public class GrafosAtv1 {
      * @param args the command line arguments
      **/
     public static void main(String[] args) {
-        
-        Graph g = new Graph();
+        view1 v = new view1();
+        v.setVisible(true);
+        /*Graph g = new Graph();
         g.readFromTxtOriented();
         Integer [][]m =  g.transforIntoMatix();
-        /*for (int i = 0; i < g.getVerteces().size(); i++) {
+        String a= "";
+        for (int i = 0; i < g.getVerteces().size(); i++) {
             for (int j = 0; j < g.getVerteces().size(); j++) {
-                System.out.print(m[i][j]+" ");
+                //System.out.print(m[i][j]+" ");
+                if(m[i][j]==999999999){
+                    a=a+"INF"+" ";
+                }else{
+                  a=a+m[i][j]+" ";  
+                }
             }
-            System.out.println(" ");
-        }*/
+            a= a+"\n";
+        }
+        System.out.println(a);
         //System.out.println(m.length);
         //g.listEdges();
-        g.floyd(m);
-        //g.buscaEmLargura();
+        //g.floyd(m);
+        //g.buscaEmLargura();*/
 
     }
 
