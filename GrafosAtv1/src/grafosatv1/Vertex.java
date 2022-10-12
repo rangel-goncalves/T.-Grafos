@@ -41,14 +41,16 @@ public class Vertex <TYPE> {
     public void addExitEdges(Edge<TYPE> exitEdges) {
         this.exitEdges.add(exitEdges);
     }
-    
+    /**
+     * 
+     * @param data
+     * @return o custo de uma determinada aresta se ela não existir retorna 0 
+     */
     public Integer getCustExpecificEdge(Integer data){
         int cust = 0;
         
         for (Edge<TYPE> exitEdge : exitEdges) {
-            //System.out.println(exitEdge.getEnd().getData()+ " "+data.toString());
             if(exitEdge.getEnd().getData().equals(data.toString())){
-                //System.out.println(exitEdge.getEnd().toString()+ " "+data.toString());
                 cust = (int)exitEdge.getCost();
             }
         }

@@ -72,6 +72,7 @@ public class Graph<TYPE> {
     }
     /**
      * use para ler grafos orientados
+     * @return Um grafo lido direto de um arquivo .txt
      */
     public void readFromTxtOriented(){
         ArrayList<String[]> reader  = new ReadDoc().FileUrl1();
@@ -96,33 +97,39 @@ public class Graph<TYPE> {
         }
         System.out.println("");
     }
-    
+    /**
+     *@return  Lista todas as arestas no formato (inicio, destino, custo)
+     */
     public String listEdges(){
-        System.out.println(edges.size());
         String a = "";
         for (Edge<TYPE> edge : edges) {
-            //System.out.println( edge.getStart().getData() +"-->" + edge.getEnd().getData() + " cost:"+edge.getCost() );
             a=a+edge.getStart().getData() +"-->" + edge.getEnd().getData() + " cost:"+edge.getCost()+"\n";
         }
         return a;
     }
-    
+    /**
+     * transformando o grafo em uma matriz de adjacencia para facilitar a implementação dos algoritimos de caminho minimo
+     */
     public Integer[][] transforIntoMatix(){
         this.matrixG = new Integer [this.verteces.size()+1][this.verteces.size()+1];
         for (Vertex<TYPE> vertece : verteces) {
             for (int i = 0; i < this.verteces.size()+1; i++) {
                 int aux = Integer.valueOf((String)vertece.getData());
-                if(aux == this.verteces.size()){
-                    //aux -= 1;
-                }
                 this.matrixG[aux][i] = vertece.getCustExpecificEdge(i);             
             }
         }
+        /*
+            Eliminando a linha e a colula [0,0] so pra não printar tudo INF nela
+        */
         Integer [][] matrixGg = new Integer [this.verteces.size()][this.verteces.size()];
         for (int i = 0; i < this.verteces.size(); i++) {
             for (int j = 0; j < this.verteces.size(); j++) {
                 if(this.matrixG[i+1][j+1] == 0){
-                    matrixGg [i][j] = INF;
+                    if(i==j){
+                        matrixGg [i][j] = 0;
+                    }else{
+                        matrixGg [i][j] = INF;
+                    }
                 }else{
                     matrixGg [i][j]=this.matrixG[i+1][j+1];
                 }
@@ -131,7 +138,9 @@ public class Graph<TYPE> {
         }
         return matrixGg;
     }
-    
+    /**
+     * Era pra ver a leitura do grafo. (NÂO UTILIZADA)
+     */
     public void buscaEmLargura(){
         ArrayList<Vertex<TYPE>> marcados = new ArrayList<Vertex<TYPE>>();
         ArrayList<Vertex<TYPE>> fila = new ArrayList<Vertex<TYPE>>();
@@ -152,11 +161,15 @@ public class Graph<TYPE> {
             fila.remove(0);
         }
     }
-    //////////////////////
+    ////////////////////// FLOYD /////////////////////////////////
+    /**
+     * Algoritimo para obter o menor caminho em um grafo
+     * @param graph 
+     */
     public void floyd(Integer graph[][])
     {
         int V = graph.length;
-        int dist[][] = new int[V][V]; // Matriz de solução
+        Integer dist[][] = new Integer[V][V]; // Matriz de solução
         int r [][] = new int[V][V];
         int i, j, k;
         for (i = 0; i < V; i++){
@@ -172,6 +185,9 @@ public class Graph<TYPE> {
         for (k = 0; k < V; k++) {
             for (i = 0; i < V; i++) {
                 for (j = 0; j < V; j++) {
+                    if(i==j){
+                        continue;
+                    }
                     if (dist[i][k] + dist[k][j]< dist[i][j]){
                         dist[i][j] = dist[i][k] + dist[k][j];
                         r[i][j] = r[i][k];
@@ -179,13 +195,6 @@ public class Graph<TYPE> {
                 }
             }
         }
-        /*for (int l = 0; l < r.length; l++) {
-            for (int m = 0; m < r.length; m++) {
-                    System.out.print(r[l][m]+" ");
-            }
-            System.out.println(" ");
-        }
-        printMatrixD(dist,r, V);*/
         this.floydResult = new MatrixFloyd(r,dist);
     }
     
@@ -202,7 +211,9 @@ public class Graph<TYPE> {
             System.out.println();
         }
     }
-    
+    /**
+     * Utilizando para interface 
+     */
     public String printedFroydR(){
         int [][]m =  this.floydResult.getR();
         String a= "";
@@ -219,8 +230,11 @@ public class Graph<TYPE> {
         }
         return a;
     }
+    /**
+     * Utilizando para interface 
+     */
     public String printedFroydD(){
-       int [][]m =  this.floydResult.getD();
+       Integer [][]m =  this.floydResult.getD();
         String a= "";
         for (int i = 0; i < m.length; i++) {
             for (int j = 0; j < m.length; j++) {
@@ -235,9 +249,22 @@ public class Graph<TYPE> {
         }
         return a; 
     }
+    /**
+     * Utilizando para interface
+     * Na view chamar sempre apos a sumFroydD() pois somente apos o somatorios podemos obter os minimos
+     * posso por uma chmada direto ja dentro do função de somatorio la no MatrixFoyd mas deixei assim mesmo
+     * @return O melhor vertece central
+     */
+    public int minimofloyd(){
+        return this.floydResult.getBestCentralVertex();
+    }
+    /**
+     * Utilizando para interface 
+     * @return O vetor dos somatorios de cada linha da Matriz D
+     */
     public String sumFroydD(){
         return this.floydResult.getSumD();
     }
     
-    ///////////////////
+    /////////////////// FIM do FLOYD ///////////////////////////
 }

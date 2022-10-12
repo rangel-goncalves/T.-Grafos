@@ -5,6 +5,9 @@
 package view;
 
 import grafosatv1.Graph;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -18,7 +21,7 @@ public class view1 extends javax.swing.JFrame {
     public view1() {
         initComponents();
     }
-    Graph g;
+    public Graph g;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -145,6 +148,9 @@ public class view1 extends javax.swing.JFrame {
         txtMatrixR.setText(g.printedFroydR());
         txtMatrixD.setText(g.printedFroydD());
         txtSum.setText(g.sumFroydD());
+        JLabel label = new JLabel("<html><center>Melhor opção para o vertece central:("+g.minimofloyd()+")");
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        JOptionPane.showMessageDialog(null,label,"Resultado",JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnUnorientedActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -158,6 +164,9 @@ public class view1 extends javax.swing.JFrame {
         txtMatrixR.setText(g.printedFroydR());
         txtMatrixD.setText(g.printedFroydD());
         txtSum.setText(g.sumFroydD());
+        JLabel label = new JLabel("<html><center>Melhor opção para o vertece central:("+g.minimofloyd()+")");
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        JOptionPane.showMessageDialog(null,label,"Resultado",JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

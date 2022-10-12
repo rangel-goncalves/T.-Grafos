@@ -25,9 +25,11 @@ public class ReadDoc {
     }
     
     /**
-    Ao invocar este metodo sera aberta uma janela para seleção do aqruivo desejado; 
+     * (ESTAR COM ALGUM BUG QUE EU NÃO LEMBRO) PARA LER O ARQUIVO USE A FUNÇÃO: FileUrl1()
+     * Ao invocar este metodo sera aberta uma janela para seleção do aqruivo desejado; 
     **/
     public ArrayList<Character> FileUrl(){
+        
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
          ArrayList<Character> result = null;
 	int returnValue = jfc.showOpenDialog(null);
@@ -57,6 +59,9 @@ public class ReadDoc {
 	}
         return result;
     }
+    /**
+    Ao invocar este metodo sera aberta uma janela para seleção do aqruivo desejado; 
+    **/
     public ArrayList<String[]> FileUrl1(){
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         ArrayList<String> numbers = new ArrayList<>();
@@ -68,8 +73,9 @@ public class ReadDoc {
             try {
                 FileReader reader = new FileReader(selectedFile);
                 BufferedReader buffer = new BufferedReader(reader);
-                String line = buffer.readLine(); 
-                line = buffer.readLine();
+                String line = buffer.readLine(); // Tiro a primeira linha que contem o numero de verteces e arestas
+                                                //isso pode ser facilmente calculado na classe Graph
+                line = buffer.readLine(); 
                 while(line!=null){
                     
                     StringTokenizer st = new StringTokenizer(line);
@@ -77,20 +83,12 @@ public class ReadDoc {
                     int i = 0;
                     while (st.hasMoreTokens()) {
                         ans[i] = st.nextToken();
-                        //System.out.println(ans[i]);
                         i++;
                     }
                     result.add(ans);
                     line = buffer.readLine();
                 }
                 reader.close();
-                //numbers.remove(0);// retirar a primeira linha
-                /*for (String string : numbers) { 
-                    
-                    
-                    
-                    result.add(ans);
-                }*/
                 return result;
             } catch (IOException ex) {
                 System.out.println("ERRO: " + ex.getMessage());
