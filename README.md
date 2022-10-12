@@ -134,6 +134,16 @@
     }
  ```
   Cenário 2
-  Neste cenario podemos utilizar tudo que foi utilizado no Cenario 1, a unica modificação que devemos levar em conta será a forma que o grafo sera lido pelo programa
-  pois neste cenario teremos um grafo orientado desta forma a função utillizada será:
-   ```java
+  Neste cenario podemos utilizar tudo que foi utilizado no Cenário 1, a unica modificação que devemos levar em conta será a forma que o grafo sera lido pelo programa
+  pois neste cenário teremos um grafo orientado desta forma a função utillizada será a função Graph.readFromTxtOriented()
+```java
+  public void readFromTxtOriented(){
+        ArrayList<String[]> reader  = new ReadDoc().FileUrl1();
+        for (String[] string : reader) {
+            this.addVertex((TYPE)string[0]);
+            this.addVertex((TYPE)string[1]);
+            this.addEdge(Double.parseDouble(string[2]),(TYPE)string[0],(TYPE)string[1]);
+        }
+    }
+```
+  O restate sera feito de forma semelhante ao Cenário 1
