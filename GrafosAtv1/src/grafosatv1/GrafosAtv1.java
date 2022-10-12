@@ -1,8 +1,5 @@
 package grafosatv1;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.StringTokenizer;
 import view.view1;
 
 /**
