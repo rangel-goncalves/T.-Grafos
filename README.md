@@ -147,3 +147,7 @@
     }
 ```
   O restate sera feito de forma semelhante ao Cenário 1
+  #Telas
+  Tela de Inicio            |  Tela de busca             |  Tela de resultado
+:-------------------------:|:-------------------------::-------------------------:
+![]()  |  ![]()![]()  |  ![]()
