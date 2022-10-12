@@ -1,5 +1,6 @@
 # T.-Grafos
 # Atividade 1 - Algoritimos de caminho mínimo
+  Cenário 1
   Leitura do grafo a partir de um arquivo .txt Neste passo teremos um Grafo formado por 2 objetos: Vertex e Edges
   ```java
   public void readFromTxtUnoriented(){
@@ -132,3 +133,7 @@
         return result;
     }
  ```
+  Cenário 2
+  Neste cenario podemos utilizar tudo que foi utilizado no Cenario 1, a unica modificação que devemos levar em conta será a forma que o grafo sera lido pelo programa
+  pois neste cenario teremos um grafo orientado desta forma a função utillizada será:
+   ```java
