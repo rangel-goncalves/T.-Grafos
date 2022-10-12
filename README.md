@@ -148,6 +148,6 @@
 ```
   O restate sera feito de forma semelhante ao Cenário 1
   #Telas
-  Tela de Inicio            |  Tela de busca             |  Tela de resultado
-:-------------------------:|:-------------------------::-------------------------:
+  Tela de Inicio           |  Tela de busca            |  Tela de resultado
+:-------------------------:|:-------------------------:|:-------------------------:
 ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv1/src/Images/Tela%20inicial.png)  |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv1/src/Images/Tela%20de%20busca.png) |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv1/src/Images/Tela%20de%20resultado.png)
