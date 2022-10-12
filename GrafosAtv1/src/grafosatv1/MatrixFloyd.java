@@ -42,7 +42,7 @@ public class MatrixFloyd {
                 result +=d[i][j];
                 
             }
-            this.sumD.add(result);
+            this.sumD.add(result); // sera utilizado na escolha do melhor vertice central
             if(result>=999999999){
                 a = a+"INF"+"\n";
             }else{

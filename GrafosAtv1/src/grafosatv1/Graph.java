@@ -195,7 +195,7 @@ public class Graph<TYPE> {
                 }
             }
         }
-        this.floydResult = new MatrixFloyd(r,dist);
+        this.floydResult = new MatrixFloyd(r,dist); // Objeto que vai guardar as informações gerada pelo algoritimo
     }
     
     void printMatrixD(int dist[][],int [][]r, int V)

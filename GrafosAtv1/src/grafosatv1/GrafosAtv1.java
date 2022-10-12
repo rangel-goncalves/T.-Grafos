@@ -17,7 +17,6 @@ public class GrafosAtv1 {
     public static void main(String[] args) {
         view1 v = new view1();
         v.setVisible(true);
-
     }
 
 }
