@@ -151,6 +151,6 @@
   
   #Telas
   
-  Tela de Inicio           |  Tela de busca            |  Tela de resultado
-:-------------------------:|:-------------------------:|:-------------------------:
-![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv1/src/Images/Tela%20inicial.png)  |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv1/src/Images/Tela%20de%20busca.png) |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv1/src/Images/Tela%20de%20resultado.png)
+  Tela de Inicio           |  Tela de busca            |  Tela de resultado 1       |  Tela de resultado 2
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv1/src/Images/Tela%20inicial.png)  |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv1/src/Images/Tela%20de%20busca.png) |  ![Resultado usando o grafo01](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv1/src/Images/Tela%20de%20resultado.png) |  ![Resultado usando o grafo02](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv1/src/Images/Tela%20de%20resultado2.png) 
