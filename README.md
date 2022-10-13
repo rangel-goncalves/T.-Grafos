@@ -147,7 +147,7 @@
         }
     }
 ```
-  O restate sera feito de forma semelhante ao Cenário 1
+  O restante sera feito de forma semelhante ao Cenário 1
   
   #Telas
   
