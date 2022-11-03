@@ -8,7 +8,7 @@ public class DistanceCalculation {
 
     public DistanceCalculation() {
     }
-    Double latAndLgnToDistance(double firstLatitude, double firstLongitude,double secondLatitude,double secondLongitude){
+    public Double latAndLgnToDistance(double firstLatitude, double firstLongitude,double secondLatitude,double secondLongitude){
         double EARTH_RADIUS_KM = 6378.1;
         double firstLatToRad = Math.toRadians(firstLatitude);
         double secondLatToRad = Math.toRadians(secondLatitude);

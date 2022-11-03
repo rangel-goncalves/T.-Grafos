@@ -13,9 +13,9 @@ import org.json.simple.parser.ParseException;
 public class Graph {
     private ArrayList<Vertex> verteces;
     private ArrayList<Edge> edges;
-    private Integer [][] matrixG;
+    private Double [][] matrixG;
     private MatrixFloyd floydResult;
-    final static int INF = 999999999;
+    final static Double INF = 99999.99;
     
     public Graph() {
         this.verteces = new ArrayList<Vertex>();
@@ -44,7 +44,7 @@ public class Graph {
     public Vertex getVertex(Integer data){
         Vertex finder = null;
         for (int i = 0; i < this.verteces.size(); i++) {
-            if(this.verteces.get(i).getRank().equals(data)){
+            if(this.verteces.get(i).getRank()==(data)){
                 finder = this.verteces.get(i);
                 break;
             } 
@@ -54,7 +54,7 @@ public class Graph {
     public Vertex getVertex1(Integer data){
         Vertex finder = null;
         for (int i = 0; i < this.verteces.size(); i++) {
-            if(this.verteces.get(i).getRank().equals(data)){
+            if(this.verteces.get(i).getRank()==(data)){
                 finder = this.verteces.get(i);
                 break;
             } 
@@ -76,20 +76,24 @@ public class Graph {
         }
             DistanceCalculation d = new DistanceCalculation();
             int k = 0;
+            Double maior = 0.0;
         for (Vertex v : this.verteces) {
             for (int i = 0; i < this.verteces.size(); i++) {
                 Double cost = d.latAndLgnToDistance(v.getLatitude(), v.getLongitude(), 
                                                     this.verteces.get(i).getLatitude(), 
                                                     this.verteces.get(i).getLongitude());
+                if(maior<cost){
+                        maior = cost;
+                    }
                 if(cost <= maxDistance && cost != 0.0){
-                    System.out.println(k+" - "+i);
+                    //System.out.println(v.getRank()+" - "+i+"==="+cost);
                     this.addEdge(cost, v, this.verteces.get(i));
                 }
             }
             k++;
         }
-        System.out.println("acabou: " + this.edges.size());
-        System.out.println(this.edges.get(0).getCost()+"-"+this.edges.get(0).getStart().getCity()+"-"+this.edges.get(0).getEnd().getCity());
+        //System.out.println("acabou: " + this.edges.size());
+        //System.out.println(maior);
     }
     
     /**
@@ -126,15 +130,16 @@ public class Graph {
     public String listEdges(){
         String a = "";
         for (Edge edge : edges) {
-            a=a+edge.getStart().getRank() +"-->" + edge.getEnd().getRank() + " cost:"+edge.getCost()+"\n";
+            //a=a+edge.getStart().getRank() +"-->" + edge.getEnd().getRank() + " cost:"+edge.getCost()+"\n";
+            System.out.println(edge.getStart().getRank() +"-->" + edge.getEnd().getRank() + " cost:"+edge.getCost()+"\n");
         }
         return a;
     }
     /**
      * transformando o grafo em uma matriz de adjacencia para facilitar a implementação dos algoritimos de caminho minimo
      */
-    public Integer[][] transforIntoMatix(){
-        this.matrixG = new Integer [this.verteces.size()+1][this.verteces.size()+1];
+    public Double[][] transforIntoMatix(){
+        this.matrixG = new Double [this.verteces.size()+1][this.verteces.size()+1];
         for (Vertex vertece : verteces) {
             for (int i = 0; i < this.verteces.size()+1; i++) {
                 int aux = vertece.getRank();
@@ -144,21 +149,23 @@ public class Graph {
         /*
             Eliminando a linha e a colula [0,0] so pra não printar tudo INF nela
         */
-        Integer [][] matrixGg = new Integer [this.verteces.size()][this.verteces.size()];
+        Double [][] matrixGg = new Double [this.verteces.size()][this.verteces.size()];
         for (int i = 0; i < this.verteces.size(); i++) {
             for (int j = 0; j < this.verteces.size(); j++) {
                 if(this.matrixG[i+1][j+1] == 0){
                     if(i==j){
-                        matrixGg [i][j] = 0;
+                        matrixGg [i][j] = 0.00;
                     }else{
                         matrixGg [i][j] = INF;
                     }
                 }else{
                     matrixGg [i][j]=this.matrixG[i+1][j+1];
                 }
-                
+                //System.out.println(matrixGg[i][j]+" ");
             }
+            //System.out.println("*****************************");
         }
+        this.floyd(matrixGg);
         return matrixGg;
     }
     /**
@@ -189,10 +196,10 @@ public class Graph {
      * Algoritimo para obter o menor caminho em um grafo
      * @param graph 
      */
-    public void floyd(Integer graph[][])
+    public void floyd(Double graph[][])
     {
         int V = graph.length;
-        Integer dist[][] = new Integer[V][V]; // Matriz de solução
+        Double dist[][] = new Double[V][V]; // Matriz de solução
         int r [][] = new int[V][V];
         int i, j, k;
         for (i = 0; i < V; i++){
@@ -248,7 +255,9 @@ public class Graph {
                 }else{
                   a=a+m[i][j]+" ";  
                 }
+                System.out.print(m[i][j]+" ");
             }
+            System.out.println(" ");
             a= a+"\n";
         }
         return a;
@@ -257,7 +266,7 @@ public class Graph {
      * Utilizando para interface 
      */
     public String printedFroydD(){
-       Integer [][]m =  this.floydResult.getD();
+       Double [][]m =  this.floydResult.getD();
         String a= "";
         for (int i = 0; i < m.length; i++) {
             for (int j = 0; j < m.length; j++) {
@@ -267,7 +276,9 @@ public class Graph {
                 }else{
                   a=a+m[i][j]+" ";  
                 }
+                System.out.print(m[i][j]+" ");
             }
+            System.out.println(" ");
             a= a+"\n";
         }
         return a; 
@@ -288,6 +299,24 @@ public class Graph {
     public String sumFroydD(){
         return this.floydResult.getSumD();
     }
-    
+    public void havePath(int start, int end){
+        int r[][] = this.floydResult.getR();
+        int next = end-1;
+        int cur = start-1;
+        while(true){
+            if(r[cur][next]!=0){
+                cur = r[cur][next]-1;
+                System.out.println(cur+1);
+                //System.out.println(r[cur][next]+"-"+(cur+1)+","+(next+1));
+                if(cur==next){
+                    System.out.println("tem!");
+                    break;
+                }
+            }else{
+                System.out.println("Não existe caminho");
+                break;
+            }
+        }
+    }
     /////////////////// FIM do FLOYD ///////////////////////////
 }

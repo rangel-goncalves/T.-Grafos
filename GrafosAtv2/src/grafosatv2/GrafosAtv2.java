@@ -26,8 +26,18 @@ public class GrafosAtv2 {
      */
     public static void main(String[] args) throws ParseException {
         Graph g = new Graph();
-        g.readVertexFromJSON(4000.00);
-        //System.out.println(g.listEdges());
+        g.readVertexFromJSON(500.00);
+        g.transforIntoMatix();
+        g.havePath(1, 2);
+        g = new Graph();
+        g.readVertexFromJSON(600.00);
+        g.transforIntoMatix();
+        g.havePath(1, 2);
+        g = new Graph();
+        g.readVertexFromJSON(700.00);
+        g.transforIntoMatix();
+        g.havePath(1, 2);
+        //g.listEdges();
         /*JSONArray JSONObject ;
         JSONParser parser = new JSONParser();
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());

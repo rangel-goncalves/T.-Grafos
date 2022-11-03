@@ -13,7 +13,7 @@ public class Vertex {
     private Double latitude; 
     private Double longitude; 
     private Integer population;
-    private Integer rank; 
+    private int rank; 
     private String state;
     private ArrayList<Edge> inputEdges;
     private ArrayList<Edge> exitEdges;
@@ -78,7 +78,7 @@ public class Vertex {
         this.state = state;
     }
     
-    public Integer getRank() {
+    public int getRank() {
         return this.rank;
     }
 
@@ -106,15 +106,16 @@ public class Vertex {
      * @param data
      * @return o custo de uma determinada aresta se ela não existir retorna 0 
      */
-    public Integer getCustExpecificEdge(Integer data){
-        int cust = 0;
+    public Double getCustExpecificEdge(int data){
+        Double cost = 0.00;
         
         for (Edge exitEdge : exitEdges) {
-            if(exitEdge.getEnd().getRank().equals(data.toString())){
-                cust = (int)exitEdge.getCost();
+            if(exitEdge.getEnd().getRank()== data){
+                cost = (Double)exitEdge.getCost();
+                return cost;
             }
         }
-        return cust;
+        return cost;
     }
     
 }
