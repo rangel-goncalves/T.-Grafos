@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  *
  * @author Rangel
- * @param <TYPE>
+ *
  */
 public class Vertex {
     private String city; 
@@ -26,8 +26,8 @@ public class Vertex {
         this.population = population;
         this.rank = rank;
         this.state = state;
-        this.inputEdges = new ArrayList<Edge>();
-        this.exitEdges = new ArrayList<Edge>();
+        this.inputEdges = new ArrayList<>();
+        this.exitEdges = new ArrayList<>();
     }
 
     public String getCity() {

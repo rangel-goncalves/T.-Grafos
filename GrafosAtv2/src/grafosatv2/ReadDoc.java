@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -64,10 +63,10 @@ public class ReadDoc {
     }
     /**
     Ao invocar este metodo sera aberta uma janela para seleção do aqruivo desejado; 
+     * @return 
     **/
     public ArrayList<String[]> FileUrl1(){
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        ArrayList<String> numbers = new ArrayList<>();
         ArrayList<String[]> result = new ArrayList<>();
 	int returnValue = jfc.showOpenDialog(null);
 

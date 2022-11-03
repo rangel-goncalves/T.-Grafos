@@ -18,8 +18,8 @@ public class Graph {
     final static Double INF = 99999.99;
     
     public Graph() {
-        this.verteces = new ArrayList<Vertex>();
-        this.edges =  new ArrayList<Edge>();
+        this.verteces = new ArrayList<>();
+        this.edges =  new ArrayList<>();
     }
   
     public boolean addVertex(Vertex v){
@@ -31,8 +31,6 @@ public class Graph {
     }
     
     public void addEdge(Double cost, Vertex startData, Vertex endData){
-        //Vertex start = this.getVertex(startData);
-        //Vertex end = this.getVertex(endData);
         if((startData != null) && (endData != null)){
             Edge edge = new Edge(cost,startData,endData);
             endData.addInputEdges(edge);
@@ -68,46 +66,23 @@ public class Graph {
         for (Object object : inJSON) {
             JSONObject obj =(JSONObject)object;
             Vertex v = new Vertex((String)obj.get("city"),(String)obj.get("growth_from_2000_to_2013"),(Double)obj.get("latitude"),
-                                                   (Double)obj.get("longitude"),Integer.parseInt((String)obj.get("population")),
-                                                   Integer.parseInt((String)obj.get("rank")),
+                                                   (Double)obj.get("longitude"),Integer.valueOf((String)obj.get("population")),
+                                                   Integer.valueOf((String)obj.get("rank")),
                                                    (String)obj.get("state"));
             
             this.addVertex(v);
         }
             DistanceCalculation d = new DistanceCalculation();
-            int k = 0;
-            Double maior = 0.0;
         for (Vertex v : this.verteces) {
             for (int i = 0; i < this.verteces.size(); i++) {
                 Double cost = d.latAndLgnToDistance(v.getLatitude(), v.getLongitude(), 
                                                     this.verteces.get(i).getLatitude(), 
                                                     this.verteces.get(i).getLongitude());
-                if(maior<cost){
-                        maior = cost;
-                    }
                 if(cost <= maxDistance && cost != 0.0){
-                    //System.out.println(v.getRank()+" - "+i+"==="+cost);
                     this.addEdge(cost, v, this.verteces.get(i));
                 }
             }
-            k++;
         }
-        //System.out.println("acabou: " + this.edges.size());
-        //System.out.println(maior);
-    }
-    
-    /**
-     * use para ler grafos não orientados
-     */
-    public void readFromTxtUnoriented(){
-
-    }
-    /**
-     * use para ler grafos orientados
-     * @return Um grafo lido direto de um arquivo .txt
-     */
-    public void readFromTxtOriented(){
-
     }
 
     public ArrayList<Vertex> getVerteces() {
@@ -137,6 +112,7 @@ public class Graph {
     }
     /**
      * transformando o grafo em uma matriz de adjacencia para facilitar a implementação dos algoritimos de caminho minimo
+     * @return 
      */
     public Double[][] transforIntoMatix(){
         this.matrixG = new Double [this.verteces.size()+1][this.verteces.size()+1];
@@ -172,13 +148,13 @@ public class Graph {
      * Era pra ver a leitura do grafo. (NÂO UTILIZADA)
      */
     public void buscaEmLargura(){
-        ArrayList<Vertex> marcados = new ArrayList<Vertex>();
-        ArrayList<Vertex> fila = new ArrayList<Vertex>();
+        ArrayList<Vertex> marcados = new ArrayList<>();
+        ArrayList<Vertex> fila = new ArrayList<>();
         Vertex atual = this.verteces.get(0);
         marcados.add(atual);
         System.out.println(atual.getRank());
         fila.add(atual);
-        while(fila.size() > 0){
+        while(!fila.isEmpty()){
             Vertex visitado = fila.get(0);
             for(int i=0; i < visitado.getExitEdges().size(); i++){
                 Vertex proximo = visitado.getExitEdges().get(i).getEnd();
@@ -243,6 +219,7 @@ public class Graph {
     }
     /**
      * Utilizando para interface 
+     * @return 
      */
     public String printedFroydR(){
         int [][]m =  this.floydResult.getR();
@@ -264,6 +241,7 @@ public class Graph {
     }
     /**
      * Utilizando para interface 
+     * @return 
      */
     public String printedFroydD(){
        Double [][]m =  this.floydResult.getD();
