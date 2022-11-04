@@ -17,17 +17,16 @@ public class GrafosAtv2 {
     public static void main(String[] args) throws ParseException {
 
         Graph g = new Graph();
-        g.readVertexFromJSON(500.00);
+        g.readVertexFromJSON1(500.00);
         g.transforIntoMatix();
         g.havePath(1, 2);
-        g = new Graph();
-        g.readVertexFromJSON(600.00);
+        g.readVertexFromJSON1(600.00);
         g.transforIntoMatix();
-        g.havePath(1, 2);
-        g = new Graph();
+        g.havePath(2, 1);
+        /*g = new Graph();
         g.readVertexFromJSON(700.00);
         g.transforIntoMatix();
-        g.havePath(1, 2);
+        g.havePath(1, 2);*/
 
     }
 

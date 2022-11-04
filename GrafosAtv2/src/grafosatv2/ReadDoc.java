@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -22,8 +23,13 @@ import org.json.simple.parser.ParseException;
  * @author Rangel
  */
 public class ReadDoc {
+    
+    private File selectedFile1;
+    private JSONArray JSONArray1;
 
     public ReadDoc() {
+        this.selectedFile1 = null;
+        this.JSONArray1 =  null;
     }
     
     /**
@@ -100,7 +106,7 @@ public class ReadDoc {
     }
     
     public JSONArray jsomFileURL() throws ParseException{
-    JSONArray JSONArray ;
+        JSONArray JSONArray ;
         JSONParser parser = new JSONParser();
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         int returnValue = jfc.showOpenDialog(null);
@@ -113,6 +119,32 @@ public class ReadDoc {
                 System.out.println("ERRO: " + ex.getMessage());
             }
 	}
+        return null;
+    }
+    /**
+    * Use se for testar varios raios de distancia maxima com um mesmo JSON
+     * @return 
+     * @throws org.json.simple.parser.ParseException
+    */
+    public JSONArray jsomFileURL1() throws ParseException{
+        if(this.JSONArray1 ==  null){
+            JSONParser parser = new JSONParser();
+            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            jfc.addChoosableFileFilter(new FileNameExtensionFilter("JSON FILE", "json"));
+            int returnValue = jfc.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = jfc.getSelectedFile();
+                try {
+                    this.JSONArray1  = (JSONArray) parser.parse(new FileReader(selectedFile));
+                    return this.JSONArray1; 
+                } catch (IOException ex) {
+                    System.out.println("ERRO: " + ex.getMessage());
+                }
+            } 
+        }else if(this.JSONArray1 !=  null){
+            return this.JSONArray1; 
+        }
+        
         return null;
     }
     

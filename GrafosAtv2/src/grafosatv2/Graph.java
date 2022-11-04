@@ -11,6 +11,7 @@ import org.json.simple.parser.ParseException;
  * @param 
  */
 public class Graph {
+    private ReadDoc reader1;
     private ArrayList<Vertex> verteces;
     private ArrayList<Edge> edges;
     private Double [][] matrixG;
@@ -20,6 +21,7 @@ public class Graph {
     public Graph() {
         this.verteces = new ArrayList<>();
         this.edges =  new ArrayList<>();
+        this.reader1 = new ReadDoc();
     }
   
     public boolean addVertex(Vertex v){
@@ -59,10 +61,44 @@ public class Graph {
         }
         return finder;
     }
-    
+    /**
+     * Sempre que chamar esta função ira ser aberto uma janela para escolher um arquivo JSON
+     * @param maxDistance
+     * @throws ParseException 
+     */
     public void readVertexFromJSON(Double maxDistance) throws ParseException{
         ReadDoc reader = new ReadDoc();
         JSONArray inJSON = reader.jsomFileURL();
+        for (Object object : inJSON) {
+            JSONObject obj =(JSONObject)object;
+            Vertex v = new Vertex((String)obj.get("city"),(String)obj.get("growth_from_2000_to_2013"),(Double)obj.get("latitude"),
+                                                   (Double)obj.get("longitude"),Integer.valueOf((String)obj.get("population")),
+                                                   Integer.valueOf((String)obj.get("rank")),
+                                                   (String)obj.get("state"));
+            
+            this.addVertex(v);
+        }
+            DistanceCalculation d = new DistanceCalculation();
+        for (Vertex v : this.verteces) {
+            for (int i = 0; i < this.verteces.size(); i++) {
+                Double cost = d.latAndLgnToDistance(v.getLatitude(), v.getLongitude(), 
+                                                    this.verteces.get(i).getLatitude(), 
+                                                    this.verteces.get(i).getLongitude());
+                if(cost <= maxDistance && cost != 0.0){
+                    this.addEdge(cost, v, this.verteces.get(i));
+                }
+            }
+        }
+    }
+    /**
+     * Use se for testar varios raios de distancia maxima com um mesmo JSON
+     * @param maxDistance
+     * @throws ParseException 
+     */
+    public void readVertexFromJSON1(Double maxDistance) throws ParseException{
+        
+        JSONArray inJSON = this.reader1.jsomFileURL1();
+        System.out.println("Aguarde isso pode levar alguns segundos\n(Background sound: MUSICA DE ELEVADOR IRRITANTE)");
         for (Object object : inJSON) {
             JSONObject obj =(JSONObject)object;
             Vertex v = new Vertex((String)obj.get("city"),(String)obj.get("growth_from_2000_to_2013"),(Double)obj.get("latitude"),
@@ -279,17 +315,21 @@ public class Graph {
     }
     public void havePath(int start, int end){
         int r[][] = this.floydResult.getR();
+        Double d [][] = this.floydResult.getD();
         int next = end-1;
         int cur = start-1;
+        System.out.println("Ponto de partida: "+this.getVertex(start).getCity());
         while(true){
             if(r[cur][next]!=0){
+                System.out.print("distancia percorrida da ultima parada ate a atual: "+d[cur][r[cur][next]-1]);
                 cur = r[cur][next]-1;
-                System.out.println(cur+1);
-                //System.out.println(r[cur][next]+"-"+(cur+1)+","+(next+1));
                 if(cur==next){
-                    System.out.println("tem!");
+                    System.out.println(" Parada atual(DESTINO FINAL): "+this.getVertex(cur+1).getCity());
+                    System.out.println("tem! Distancia total percorrida: " + d[start-1][end-1]);
                     break;
                 }
+                System.out.print(" distancia restante: "+d[cur][next]);
+                System.out.println(" Parada atual: "+this.getVertex(cur+1).getCity());
             }else{
                 System.out.println("Não existe caminho");
                 break;
