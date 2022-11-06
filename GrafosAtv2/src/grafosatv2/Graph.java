@@ -118,7 +118,7 @@ public class Graph {
             }
         }
         System.out.println("Grafo criado com sucesso!");
-        this.transforIntoMatix();
+        this.transforIntoMatrix();
     }
 
     public ArrayList<Vertex> getVerteces() {
@@ -150,7 +150,7 @@ public class Graph {
      * transformando o grafo em uma matriz de adjacencia para facilitar a implementação dos algoritimos de caminho minimo
      * @return 
      */
-    public Double[][] transforIntoMatix(){
+    public Double[][] transforIntoMatrix(){
         this.matrixG = new Double [this.verteces.size()+1][this.verteces.size()+1];
         for (Vertex vertece : verteces) {
             for (int i = 0; i < this.verteces.size()+1; i++) {
