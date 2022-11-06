@@ -1,23 +1,9 @@
-- [T.-Grafos](#t-grafos)
-- [Atividade 1 - Algoritimos de caminho mínimo](#atividade-1---algoritimos-de-caminho-m-nimo)
-- [Cenário 1](#cenario-1)
-  * [Leitura do grafo a partir de um arquivo .txt Neste passo teremos um Grafo formado por 2 objetos: Vertex e Edges](#leitura-do-grafo-a-partir-de-um-arquivo-txt-neste-passo-teremos-um-grafo-formado-por-2-objetos--vertex-e-edges)
-  * [Utilizando a função Graph.transforIntoMatix() podemos criar uma matriz de adjacencias para facilitar o uso do algoritimo de caminho mínimo escolhido, que neste cado foi o algoritimo de Floyd.](#utilizando-a-fun--o-graphtransforintomatix---podemos-criar-uma-matriz-de-adjacencias-para-facilitar-o-uso-do-algoritimo-de-caminho-m-nimo-escolhido--que-neste-cado-foi-o-algoritimo-de-floyd)
-  * [Computação de caminho mínimo](#computa--o-de-caminho-m-nimo)
-  * [Cálculo dos vetores de distância](#c-lculo-dos-vetores-de-dist-ncia)
-  * [Determinando a estação central](#determinando-a-esta--o-central)
-- [Cenário 2](#cen-rio-2)
-  * [Telas](#telas)
-- [Atividade 2 - Algoritimos de caminho mínimo](#atividade-2---algoritimos-de-caminho-m-nimo)
-  * [Função main](#fun--o-main)
-  * [Função Usada Para Calcular a Distância Entres As Cooedenadas](#fun--o-usada-para-calcular-a-dist-ncia-entres-as-cooedenadas)
-  * [Função Usada Para ler o Arquivo](#fun--o-usada-para-ler-o-arquivo)
-  * [Algoritimo de Caminho Mínimo Floyd](#algoritimo-de-caminho-m-nimo-floyd)
-  * [Função Que Verifica a Existência de Caminho](#fun--o-que-verifica-a-exist-ncia-de-caminho)
-  * [Telas](#telas-1)
-
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
+Tabela de conteúdos
+=================
+<!--ts-->
+   * [Atividade 1](#Atividade-1---Algoritimos-de-caminho-mínimo)
+   * [Tabela de Conteudo](#tabela-de-conteudo)
+<!--te-->
 # Atividade 1 - Algoritimos de caminho mínimo
 # Cenário 1
   
