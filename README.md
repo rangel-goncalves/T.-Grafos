@@ -185,7 +185,7 @@ public class GrafosAtv2 {
     }
 }
 ```
-  Você pode alterar o valor da variavel (maxDistance) para testar outros limites de distância, caso queira destar varios percursos ou distâncias basta reperir o techo de codigo:
+  Você pode alterar o valor da variavel (maxDistance) para testar outros limites de distância, caso queira testar varios percursos ou distâncias basta reperir o trecho de código:
 ```java
         maxDistance = [DISTÂNCIA DEESEJADA];
         g.readGraphFromJSON(maxDistance);
