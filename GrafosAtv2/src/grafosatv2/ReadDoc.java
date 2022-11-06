@@ -131,6 +131,7 @@ public class ReadDoc {
             JSONParser parser = new JSONParser();
             JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
             jfc.addChoosableFileFilter(new FileNameExtensionFilter("JSON FILE", "json"));
+            jfc.setDialogTitle("Selecione o Arquivo .JSON");
             int returnValue = jfc.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = jfc.getSelectedFile();

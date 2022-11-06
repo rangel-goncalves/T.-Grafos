@@ -15,19 +15,14 @@ public class GrafosAtv2 {
      * @throws org.json.simple.parser.ParseException
      */
     public static void main(String[] args) throws ParseException {
-
         Graph g = new Graph();
-        g.readVertexFromJSON1(500.00);
+        g.readGraphFromJSON(500.00);
         g.transforIntoMatix();
-        g.havePath(1, 2);
-        g.readVertexFromJSON1(600.00);
+        System.out.println(g.havePath(1, 2));
+        g.readGraphFromJSON(600.00);
         g.transforIntoMatix();
-        g.havePath(2, 1);
-        /*g = new Graph();
-        g.readVertexFromJSON(700.00);
-        g.transforIntoMatix();
-        g.havePath(1, 2);*/
-
+        System.out.println(g.havePath(100, 1));
+        
     }
 
 }

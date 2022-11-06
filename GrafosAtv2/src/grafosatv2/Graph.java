@@ -19,8 +19,6 @@ public class Graph {
     final static Double INF = 99999.99;
     
     public Graph() {
-        this.verteces = new ArrayList<>();
-        this.edges =  new ArrayList<>();
         this.reader1 = new ReadDoc();
     }
   
@@ -66,7 +64,7 @@ public class Graph {
      * @param maxDistance
      * @throws ParseException 
      */
-    public void readVertexFromJSON(Double maxDistance) throws ParseException{
+    public void readGrapfFromNewJSON(Double maxDistance) throws ParseException{
         ReadDoc reader = new ReadDoc();
         JSONArray inJSON = reader.jsomFileURL();
         for (Object object : inJSON) {
@@ -95,10 +93,11 @@ public class Graph {
      * @param maxDistance
      * @throws ParseException 
      */
-    public void readVertexFromJSON1(Double maxDistance) throws ParseException{
-        
+    public void readGraphFromJSON(Double maxDistance) throws ParseException{
+        this.verteces = new ArrayList<>();
+        this.edges =  new ArrayList<>();
         JSONArray inJSON = this.reader1.jsomFileURL1();
-        System.out.println("Aguarde isso pode levar alguns segundos\n(Background sound: MUSICA DE ELEVADOR IRRITANTE)");
+        System.out.println("Aguarde isso pode levar alguns segundos.");
         for (Object object : inJSON) {
             JSONObject obj =(JSONObject)object;
             Vertex v = new Vertex((String)obj.get("city"),(String)obj.get("growth_from_2000_to_2013"),(Double)obj.get("latitude"),
@@ -119,6 +118,7 @@ public class Graph {
                 }
             }
         }
+        System.out.println("Grafo criado com sucesso!");
     }
 
     public ArrayList<Vertex> getVerteces() {
@@ -177,7 +177,9 @@ public class Graph {
             }
             //System.out.println("*****************************");
         }
+        System.out.println("Iniciando Algoritimo de Floyd");
         this.floyd(matrixGg);
+        System.out.println("Fim do Algoritimo de Floyd");
         return matrixGg;
     }
     /**
@@ -239,64 +241,6 @@ public class Graph {
         }
         this.floydResult = new MatrixFloyd(r,dist); // Objeto que vai guardar as informações gerada pelo algoritimo
     }
-    
-    void printMatrixD(int dist[][],int [][]r, int V)
-    {
-        for (int i = 0; i < V; ++i) {
-            for (int j = 0; j < V; ++j) {
-                if (dist[i][j] == INF){
-                    System.out.print("-1 ");
-                }else{
-                    System.out.print(dist[i][j] + "   ");
-                }
-            }
-            System.out.println();
-        }
-    }
-    /**
-     * Utilizando para interface 
-     * @return 
-     */
-    public String printedFroydR(){
-        int [][]m =  this.floydResult.getR();
-        String a= "";
-        for (int i = 0; i < m.length; i++) {
-            for (int j = 0; j < m.length; j++) {
-                //System.out.print(m[i][j]+" ");
-                if(m[i][j]==999999999){
-                    a=a+"INF"+" ";
-                }else{
-                  a=a+m[i][j]+" ";  
-                }
-                System.out.print(m[i][j]+" ");
-            }
-            System.out.println(" ");
-            a= a+"\n";
-        }
-        return a;
-    }
-    /**
-     * Utilizando para interface 
-     * @return 
-     */
-    public String printedFroydD(){
-       Double [][]m =  this.floydResult.getD();
-        String a= "";
-        for (int i = 0; i < m.length; i++) {
-            for (int j = 0; j < m.length; j++) {
-                //System.out.print(m[i][j]+" ");
-                if(m[i][j]==999999999){
-                    a=a+"INF"+" ";
-                }else{
-                  a=a+m[i][j]+" ";  
-                }
-                System.out.print(m[i][j]+" ");
-            }
-            System.out.println(" ");
-            a= a+"\n";
-        }
-        return a; 
-    }
     /**
      * Utilizando para interface
      * Na view chamar sempre apos a sumFroydD() pois somente apos o somatorios podemos obter os minimos
@@ -313,26 +257,27 @@ public class Graph {
     public String sumFroydD(){
         return this.floydResult.getSumD();
     }
-    public void havePath(int start, int end){
+    public String havePath(int start, int end){
+        String ans="";
         int r[][] = this.floydResult.getR();
         Double d [][] = this.floydResult.getD();
         int next = end-1;
         int cur = start-1;
-        System.out.println("Ponto de partida: "+this.getVertex(start).getCity());
+        ans += "Ponto de partida: " + this.getVertex(start).getCity();
         while(true){
             if(r[cur][next]!=0){
-                System.out.print("distancia percorrida da ultima parada ate a atual: "+d[cur][r[cur][next]-1]);
+                ans += "distancia percorrida da ultima parada ate a atual: "+d[cur][r[cur][next]-1];
                 cur = r[cur][next]-1;
                 if(cur==next){
-                    System.out.println(" Parada atual(DESTINO FINAL): "+this.getVertex(cur+1).getCity());
-                    System.out.println("tem! Distancia total percorrida: " + d[start-1][end-1]);
-                    break;
+                    ans +=" Parada atual(DESTINO FINAL): "+this.getVertex(cur+1).getCity()+"\n";
+                    ans += "Distancia total percorrida: " + d[start-1][end-1]+"\n";
+                    return ans; 
                 }
-                System.out.print(" distancia restante: "+d[cur][next]);
-                System.out.println(" Parada atual: "+this.getVertex(cur+1).getCity());
+                ans += " distancia restante: "+d[cur][next];
+                ans += " Parada atual: "+this.getVertex(cur+1).getCity()+"\n";
             }else{
-                System.out.println("Não existe caminho");
-                break;
+                ans += "Não existe caminho para "+this.getVertex(end).getCity()+"\n";
+                return ans;
             }
         }
     }
