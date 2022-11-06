@@ -2,8 +2,8 @@
 Lista De Atividades
 =================
 <!--ts-->
-   * [Atividade 1](# Atividade 1 - Algoritimos de caminho mínimo)
-   * [Atividade 2](# Atividade 2 - Algoritimos de caminho mínimo)
+   * [Atividade 1](#Atividade 1 - Algoritimos de caminho mínimo)
+   * [Atividade 2](#Atividade 2 - Algoritimos de caminho mínimo)
 <!--te-->
 
 # Atividade 1 - Algoritimos de caminho mínimo
