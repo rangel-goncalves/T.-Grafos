@@ -15,11 +15,11 @@ public class GrafosAtv2 {
      * @throws org.json.simple.parser.ParseException
      */
     public static void main(String[] args) throws ParseException {
-        Double maxDistance = 150.00;
+        Double maxDistance = 500.00;
         Graph g = new Graph();
         g.readGraphFromJSON(maxDistance);
         System.out.println(g.havePath(1, 2));
-        maxDistance = 500.00;
+        maxDistance = 600.00;
         g.readGraphFromJSON(maxDistance);
         System.out.println(g.havePath(100, 1));
         /*

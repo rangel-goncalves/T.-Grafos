@@ -258,6 +258,11 @@ public class Graph {
     public String sumFroydD(){
         return this.floydResult.getSumD();
     }
+    /** 
+     * @param start
+     * @param end
+     * @return ans (String com o resultado do percurso)
+     */
     public String havePath(int start, int end){
         String ans="";
         int r[][] = this.floydResult.getR();
