@@ -1,8 +1,8 @@
-Tabela de conteúdos
+Índice
 =================
 <!--ts-->
    * [Atividade 1](#Atividade-1---Algoritimos-de-caminho-mínimo)
-   * [Tabela de Conteudo](#tabela-de-conteudo)
+   * [Atividade 2](#Atividade-2---Algoritimos-de-caminho-mínimo)
 <!--te-->
 # Atividade 1 - Algoritimos de caminho mínimo
 # Cenário 1
