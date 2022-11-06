@@ -191,7 +191,9 @@ public class GrafosAtv2 {
         g.readGraphFromJSON(maxDistance);
         System.out.println(g.havePath([PONTO DE PARTIDA], [PONTO DE DESTINO]));
 ```
-    **Os parametros [PONTO DE PARTIDA], [PONTO DE DESTINO] são os ranks das cidades**
+###   **Os parametros [PONTO DE PARTIDA], [PONTO DE DESTINO] são os ranks das cidades**
+### SE OPTAR POR USAR AS FUNÇÕES DO ESTÃO NO BLOCO COMENTADO O PROGRAMA IRA MOSTRAR O RESULTADO PARA TODOS OS CAMINHOS POSSIVEIS ENTRE AS COMBINAÇÕES ENTRE OS VERTICES E ISSO PODE LEVAR ALGUNS MINUTOS JA QUE SE TRATA DE UM ARRANJO DE 2^1000, POIS TEMOS 1000 VERTECES COMBINADOS 2 A 2.
+
 ## Função Usada Para Calcular a Distância Entres As Cooedenadas
 ```java
     public Double latAndLgnToDistance(double firstLatitude, double firstLongitude,double secondLatitude,double secondLongitude){
