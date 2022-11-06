@@ -283,4 +283,20 @@ public class Graph {
         }
     }
     /////////////////// FIM do FLOYD ///////////////////////////
+    
+    /**
+     * Esse metodos vai mostrar os resultados para todas as combinações possiveis de caminhos
+     * Ex: Caminho de ([para todos]:n ate [para todos]:m)---> |n|,|m| = Verteces().size()
+     * vale notar que ele ira verificar o maminho de n ate m e tbm de m ate n 
+     * Ex: Caminho de (1 ate 2) e apos (não sequencialmente) o Caminho de (2 ate 1)
+     */
+    public void rodarTodosOsCaminhos(){
+        for (int i = 1; i < this.getVerteces().size()-1; i++) {
+            for (int j = 1; j < this.getVerteces().size()-1; j++) {
+                if(i!=j){
+                    System.out.println(this.havePath(i, j));
+                }
+            }
+        }
+    }
 }
