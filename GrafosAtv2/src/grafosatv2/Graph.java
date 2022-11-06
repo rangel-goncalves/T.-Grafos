@@ -119,6 +119,7 @@ public class Graph {
             }
         }
         System.out.println("Grafo criado com sucesso!");
+        this.transforIntoMatix();
     }
 
     public ArrayList<Vertex> getVerteces() {
@@ -263,7 +264,7 @@ public class Graph {
         Double d [][] = this.floydResult.getD();
         int next = end-1;
         int cur = start-1;
-        ans += "Ponto de partida: " + this.getVertex(start).getCity();
+        ans += "Ponto de partida: " + this.getVertex(start).getCity()+"\n";
         while(true){
             if(r[cur][next]!=0){
                 ans += "distancia percorrida da ultima parada ate a atual: "+d[cur][r[cur][next]-1];
