@@ -1,8 +1,8 @@
 # T.-Grafos
 # Atividade 1 - Algoritimos de caminho mínimo
-  Cenário 1
+# Cenário 1
   
-  Leitura do grafo a partir de um arquivo .txt Neste passo teremos um Grafo formado por 2 objetos: Vertex e Edges
+ ## Leitura do grafo a partir de um arquivo .txt Neste passo teremos um Grafo formado por 2 objetos: Vertex e Edges
   ```java
   public void readFromTxtUnoriented(){
         ArrayList<String[]> reader  = new ReadDoc().FileUrl1();
@@ -14,7 +14,7 @@
         }
     }
    ```
-   Utilizando a função Graph.transforIntoMatix() podemos criar uma matriz de adjacencias para facilitar o uso do algoritimo de caminho mínimo escolhido, que neste cado foi o algoritimo de Floyd.
+## Utilizando a função Graph.transforIntoMatix() podemos criar uma matriz de adjacencias para facilitar o uso do algoritimo de caminho mínimo escolhido, que neste cado foi o algoritimo de Floyd.
 ```java
     public Integer[][] transforIntoMatix(){
         this.matrixG = new Integer [this.verteces.size()+1][this.verteces.size()+1];
@@ -45,7 +45,7 @@
         return matrixGg;
     }
  ```
- Computação de caminho mínimo
+ ## Computação de caminho mínimo
  ```java
     public void floyd(Integer graph[][])
     {
@@ -79,7 +79,7 @@
         this.floydResult = new MatrixFloyd(r,dist); // Objeto que vai guardar as informações gerada pelo algoritimo
     }
  ```
- Cálculo dos vetores de distância
+## Cálculo dos vetores de distância
  ```java
  public String getSumD() {
         String a = "";
@@ -105,7 +105,7 @@
         return a;
     }
  ```
- Determinando a estação central
+## Determinando a estação central
  ```java
  public int getBestCentralVertex(){
         /*
@@ -134,7 +134,7 @@
         return result;
     }
  ```
-  Cenário 2
+ # Cenário 2
   Neste cenario podemos utilizar tudo que foi utilizado no Cenário 1, a unica modificação que devemos levar em conta será a forma que o grafo sera lido pelo programa
   pois neste cenário teremos um grafo orientado desta forma a função utillizada será a função Graph.readFromTxtOriented()
 ```java
@@ -149,7 +149,7 @@
 ```
   O restante sera feito de forma semelhante ao Cenário 1
   
-  #Telas
+  ## Telas
   
   Tela de Inicio           |  Tela de busca            |  Tela de resultado grafo01.txt       |  Tela de resultado grafo02.txt
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
@@ -304,7 +304,7 @@ public void floyd(Double graph[][])
     }
 ```
 
-##Telas
+## Telas
   
   Tela de Busca            |  Tela de Resultado        | 
 :-------------------------:|:-------------------------:|
