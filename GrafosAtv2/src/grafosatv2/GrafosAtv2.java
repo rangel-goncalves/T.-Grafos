@@ -15,6 +15,7 @@ public class GrafosAtv2 {
      * @param args the command line arguments
      * @throws org.json.simple.parser.ParseException
      */
+    
     public static void main(String[] args) throws ParseException {
         Double maxDistance = 500.00;
         Graph g = new Graph();

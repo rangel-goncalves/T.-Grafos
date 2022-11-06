@@ -1,6 +1,5 @@
 package grafosatv2;
 /**
- *
  * @author Rangel
  */
 public class Edge {

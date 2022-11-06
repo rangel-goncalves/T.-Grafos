@@ -1,7 +1,6 @@
 package grafosatv2;
 
 /**
- *
  * @author Rangel
  */
 public class DistanceCalculation {
@@ -13,8 +12,7 @@ public class DistanceCalculation {
         double firstLatToRad = Math.toRadians(firstLatitude);
         double secondLatToRad = Math.toRadians(secondLatitude);
         // Diferença das longitudes
-        double deltaLongitudeInRad = Math.toRadians(secondLongitude
-                                    - firstLongitude);
+        double deltaLongitudeInRad = Math.toRadians(secondLongitude - firstLongitude);
         Double a = Math.acos(Math.cos(firstLatToRad) * Math.cos(secondLatToRad)
                    * Math.cos(deltaLongitudeInRad) + Math.sin(firstLatToRad)
                    * Math.sin(secondLatToRad))* EARTH_RADIUS_KM;

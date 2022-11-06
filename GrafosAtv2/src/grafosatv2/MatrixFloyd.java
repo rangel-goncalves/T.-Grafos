@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collections;
 
 /**
- *
  * @author Rangel
  */
 public class MatrixFloyd {
