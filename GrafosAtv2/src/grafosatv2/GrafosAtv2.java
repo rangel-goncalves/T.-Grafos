@@ -5,6 +5,7 @@ import org.json.simple.parser.ParseException;
 /**
  *
  * @author Rangel
+ * Atividade 2 para a composição da AB1 na materia Teoria dos Grafos 3/11/22
  * Referencias:
  *              calculo das distancias: 
  *              https://thiagovespa.com.br/blog/2010/09/10/distancia-utilizando-coordenadas-geograficas-em-java/
