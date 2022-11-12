@@ -294,6 +294,27 @@ public class Graph {
      * vale notar que ele ira verificar o maminho de n ate m e tbm de m ate n 
      * Ex: Caminho de (1 ate 2) e apos (não sequencialmente) o Caminho de (2 ate 1)
      */
+    
+    public String printedFroydR(){
+        int [][]m =  this.floydResult.getR();
+        String a= "";
+        for (int i = 0; i < m.length; i++) {
+            for (int j = 0; j < m.length; j++) {
+                //System.out.print(m[i][j]+" ");
+                if(m[i][j]==999999999){
+                    //a=a+"INF"+" ";
+                    System.out.print("INF"+" ");
+                }else{
+                  //a=a+m[i][j]+" "; 
+                    System.out.print(m[i][j]+" ");
+                }
+            }
+            //a= a+"\n";
+            System.out.println(" ");
+        }
+        return a;
+    }
+    
     public void rodarTodosOsCaminhos(){
         for (int i = 1; i < this.getVerteces().size()-1; i++) {
             for (int j = 1; j < this.getVerteces().size()-1; j++) {
