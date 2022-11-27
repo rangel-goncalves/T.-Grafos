@@ -1,5 +1,7 @@
 package grafosatv3;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Rangel
@@ -66,6 +68,30 @@ public class Position_Point_WRT_Polygon
             {
                 if (orientation(polygon[i], p, polygon[next]) == 0){
                     return onSegment(polygon[i], p, polygon[next]);
+                }
+                count++;
+            }
+            i = next;
+        } while (i != 0);
+ 
+        return (count & 1) == 1 ? true : false;
+    }
+    public static boolean isInside(ArrayList<Point> polygon, int n, Point p)
+    {
+        int INF = 10000;
+        if (n < 3)
+            return false;
+ 
+        Point extreme = new Point(INF, p.y);
+ 
+        int count = 0, i = 0;
+        do
+        {
+            int next = (i + 1) % n;
+            if (doIntersect(polygon.get(i), polygon.get(next), p, extreme))
+            {
+                if (orientation(polygon.get(i), p, polygon.get(next)) == 0){
+                    return onSegment(polygon.get(i), p, polygon.get(next));
                 }
                 count++;
             }

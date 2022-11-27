@@ -14,9 +14,8 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
-//import org.json.simple.JSONArray;
-//import org.json.simple.parser.JSONParser;
-//import org.json.simple.parser.ParseException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Rangel
@@ -70,31 +69,69 @@ public class ReadDoc {
     Ao invocar este metodo sera aberta uma janela para seleção do aqruivo desejado; 
      * @return 
     **/
-    public ArrayList<String[]> FileUrl1(){
+    public ArrayList<Point> FileUrl1(){
+        
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        ArrayList<String[]> result = new ArrayList<>();
-	int returnValue = jfc.showOpenDialog(null);
+        jfc.addChoosableFileFilter(new FileNameExtensionFilter("TXT FILE", "txt"));
+        jfc.setDialogTitle("Selecione o Arquivo .TXT");
+        int returnValue = jfc.showOpenDialog(null);
+        ArrayList<Point> result = new ArrayList<>();
 
 	if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = jfc.getSelectedFile();
             try {
                 FileReader reader = new FileReader(selectedFile);
                 BufferedReader buffer = new BufferedReader(reader);
-                String line = buffer.readLine(); // Tiro a primeira linha que contem o numero de verteces e arestas
+                //String line = buffer.readLine(); // Tiro a primeira linha que contem o numero de verteces e arestas
                                                 //isso pode ser facilmente calculado na classe Graph
+                String line ="";
                 line = buffer.readLine(); 
+                String aux = "";
                 while(line!=null){
-                    
-                    StringTokenizer st = new StringTokenizer(line);
-                    String[] ans = new String[3];
-                    int i = 0;
+                    //System.out.println(line);
+                    //StringTokenizer st = new StringTokenizer(line," ");
+                    line = line.replaceAll("," , "");
+                    System.out.println(line);
+                    Pattern p = Pattern.compile("\\d+.\\d+");
+                    Matcher m = p.matcher(line);
+                    while(m.find()) {
+                    //System.out.println(m.group());
+                    aux += m.group()+" ";
+                }
+                    //Point ans = new Point();
+                    //int i = 0;
+                    /*
                     while (st.hasMoreTokens()) {
                         ans[i] = st.nextToken();
                         i++;
                     }
-                    result.add(ans);
+                    */
+                    //if(st.hasMoreTokens()) {
+                       //System.out.println(st.nextToken());
+                       //System.out.println(st.nextToken());
+                       //ans.x = Double.parseDouble(st.nextToken()) ;
+                       //ans.y = Double.parseDouble(st.nextToken()) ;
+                       //i++;
+                    //}else{
+                    //}
+                    
+                    //result.add(ans);
                     line = buffer.readLine();
                 }
+                StringTokenizer st = new StringTokenizer(aux," ");
+                while (st.hasMoreTokens()) {
+                        //ans[i] = st.nextToken();
+                        //i++;
+                        System.out.println(st.nextToken());
+                    }
+                System.out.println(aux);
+                /*
+                Pattern p = Pattern.compile("\\d+.\\d+");
+                Matcher m = p.matcher(aux);
+                while(m.find()) {
+                    System.out.println(m.group());
+                }
+                */
                 reader.close();
                 return result;
             } catch (IOException ex) {
