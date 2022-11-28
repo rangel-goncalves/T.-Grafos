@@ -21,11 +21,14 @@ public class GrafosAtv3 {
         
         g.readFromTxtUnoriented();
         
-        g.listVerteces();
+        
+        
+        g.createEdges();
+        g.listEdges();
         
         //h.check(polygon, p, 0);
         
-        /*Point p = new Point(0.5,0.5);
+        Point p = new Point(3.200000000000002,1.9919999999999938);
         Point p1 = new Point(0.5,0.5);
         if(p==p1){
             System.out.println("sim");
@@ -33,17 +36,17 @@ public class GrafosAtv3 {
         double[][] pt = new double [4][2];
         
         double[] point = {0.5,0.5};
-        pt[0][0]=0.0;
-        pt[0][1]=0.0;
+        pt[0][0]=2.0;
+        pt[0][1]=3.5;
         
-        pt[1][0]=1.0;
-        pt[1][1]=0.0;
+        pt[1][0]=1.5;
+        pt[1][1]=1.5;
         
-        pt[2][0]=0.0;
-        pt[2][1]=1.0;
+        pt[2][0]=3.5;
+        pt[2][1]=0.9;
         
-        pt[3][0]=1.0;
-        pt[3][1]=1.0;
+        pt[3][0]=4.5;
+        pt[3][1]=2.0;
         
          //
         Point a = new Point(pt[0][0],pt[0][1]);
@@ -62,8 +65,8 @@ public class GrafosAtv3 {
         System.out.println("Point P(" + p.x + ", " + p.y
                 + ") lies inside polygon1: " + Position_Point_WRT_Polygon.isInside(poly, 4, p));
         System.out.println("Point P(" + p.x + ", " + p.y
-                + ") lies inside polygon1: " + Position_Point_WRT_Polygon.isInside(polyArray, 4, p));
-        */
+                + ") lies inside polygon1: " + Position_Point_WRT_Polygon.isInside(g.getPolygons().get(0).getPoints(), 4, p));
+        
     }
     
 }

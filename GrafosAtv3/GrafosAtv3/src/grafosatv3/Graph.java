@@ -54,76 +54,100 @@ public class Graph {
         }
         return finder;
     }
-    /*
-    public Vertex getVertex1(Integer data){
-        Vertex finder = null;
-        for (int i = 0; i < this.verteces.size(); i++) {
-            if(this.verteces.get(i).getRank()==(data)){
-                finder = this.verteces.get(i);
-                break;
-            } 
-        }
-        return finder;
-    }
-    */
     
     public void readFromTxtUnoriented(){
         ArrayList<Point> reader  = new ReadDoc().FileUrl1();
         this.start = reader.remove(0);
+        Vertex v = new Vertex(this.start, this.verteces.size());
+        this.verteces.add(v);
         this.end = reader.remove(0);
         Point init = reader.remove(0);
         int n = init.x.intValue();
-        //int k = init.y.intValue();
         int k = reader.remove(0).x.intValue();
-        //System.out.println(n);
-        //System.out.println(k);
+        
         for (int i = 0; i < n; i++) {
             //System.out.println(i);
             Polygon lixo =  new Polygon();
             this.polygons.add(lixo);
         }
         
-        while(reader.size()>0){
+        while(!reader.isEmpty()){
             
             for (int i = 0; i < n; i++) {
-                //System.out.println("=="+i+"==");
+
                 for (int j = 0; j < k; j++) {
-                    //System.out.println("=="+j+"==");
+
                     Point p = new Point();
-                    if(reader.size()>0){
+                    if(!reader.isEmpty()){
                         p = reader.remove(0);
                     }else{
                         break;
-                    }
-                    Double h = Double.valueOf(1);
-                    //System.out.println("null? " + p.x+","+p.y);
-                    Vertex v = new Vertex(p, this.verteces.size());
+                        }
+
+                    v = new Vertex(p, this.verteces.size());
                     this.verteces.add(v);
                     this.polygons.get(i).poly.add(p);
                     System.out.println("poligono:"+i+" = "+this.polygons.get(i).poly.get(j).x+","+this.polygons.get(i).poly.get(j).y);
                 }
-                //System.out.println("=="+i+"==");
+
                 System.out.println("*******");
-                if(reader.size()>0){
+                if(!reader.isEmpty()){
                     k = reader.remove(0).x.intValue();
-                    //System.out.println(k);
                 }else{
                         break;
                     }
             }
-            
-            
         }
+        /*
         for (Point point : reader) {
             Vertex v = new Vertex(point,this.verteces.size());
             this.addVertex(v);
-            //this.addVertex(string[0]);
-            //this.addVertex(string[1]);
-            //this.addEdge(Double.parseDouble(string[2]),(TYPE)string[0],(TYPE)string[1]);
-            //this.addEdge(Double.parseDouble(string[2]),(TYPE)string[1],(TYPE)string[0]);
-        }
+        }*/
+        v = new Vertex(this.end, this.verteces.size());
+        this.verteces.add(v);
     }
 
+    public void createEdges(){
+        for (Vertex vertece : this.verteces) {
+            Double Y = 0.0;
+            for (Vertex vertece1 : this.verteces) {
+                Double m = 0.0;
+                Boolean dentro = false;
+                if(vertece.getPoint().x==vertece1.getPoint().x){
+                    continue;
+                }
+                //Double X = vertece.getPoint().x;
+                int i = 0;
+                m = (vertece.getPoint().y - vertece1.getPoint().y)/(vertece.getPoint().x - vertece1.getPoint().x);
+                
+                //System.out.println(vertece.getPoint().x +","+ vertece.getPoint().y+"---"+vertece1.getPoint().x+","+vertece1.getPoint().y);
+                
+                for (Double X = vertece.getPoint().x;
+                        X < (vertece1.getPoint().x>=vertece.getPoint().x? vertece1.getPoint().x:vertece.getPoint().x)
+                        ; X += 0.1) {
+                    Y = (m * (X - vertece.getPoint().x)) + vertece.getPoint().y;
+                    Point p = new Point(X,Y);
+                    //System.out.println(Y+","+X+" M = "+m+" i = "+i);
+                    //System.out.println(Y+" = Y = "+ m +"("+X+"-"+vertece.getPoint().x+") + "+ vertece.getPoint().y);
+                    System.out.println(Position_Point_WRT_Polygon.isInside(this.polygons.get(i).getPoints(),this.polygons.size(),p));
+                    for (int j = 0; j < this.polygons.size()-1; j++) {
+                        if(Position_Point_WRT_Polygon.isInside(this.polygons.get(j).getPoints(),this.polygons.get(i).getPoints().length,p)){
+                        //System.out.println("entrei nessa merdaaaaaa");
+                        dentro = true;
+                        }
+                    }
+                    
+                    //System.out.println(Y+" = Y = "+ m +"("+X+"-"+vertece.getPoint().x+") + "+ vertece.getPoint().y); 
+                } 
+                i++;
+                if(!dentro){
+                    this.addEdge(0.0, vertece, vertece1);
+                }
+            }
+            break;
+        }
+    }
+    
     public ArrayList<Vertex> getVerteces() {
         return verteces;
     }
@@ -288,6 +312,14 @@ public class Graph {
             System.out.println(" ");
         }
         return a;
+    }
+
+    public ArrayList<Polygon> getPolygons() {
+        return polygons;
+    }
+
+    public void setPolygons(ArrayList<Polygon> polygons) {
+        this.polygons = polygons;
     }
     
 }

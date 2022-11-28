@@ -57,7 +57,6 @@ public class Position_Point_WRT_Polygon
         int INF = 10000;
         if (n < 3)
             return false;
- 
         Point extreme = new Point(INF, p.y);
  
         int count = 0, i = 0;

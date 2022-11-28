@@ -24,6 +24,8 @@ public class Vertex {
     public Vertex(Point point, int ordem) {
         this.point = point;
         this.ordem = ordem;
+        this.inputEdges = new ArrayList<>();
+        this.exitEdges =  new ArrayList<>();
     }
     
     

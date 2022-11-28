@@ -14,5 +14,10 @@ public class Polygon {
         poly = new ArrayList();
     }
     
+    public Point[] getPoints(){
+        Point [] p = new Point[poly.size()];
+        poly.toArray(p);
+        return p;
+    }
          
 }
