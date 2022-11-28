@@ -21,7 +21,7 @@ public class GrafosAtv3 {
         
         g.readFromTxtUnoriented();
         
-        //g.listVerteces();
+        g.listVerteces();
         
         //h.check(polygon, p, 0);
         

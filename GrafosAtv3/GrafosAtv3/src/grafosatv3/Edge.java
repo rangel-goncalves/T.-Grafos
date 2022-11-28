@@ -3,14 +3,30 @@ package grafosatv3;
  * @author Rangel
  */
 public class Edge {
+    
+    //private int weight;
+    private boolean isIncluded = false;
     private double cost;
     private Vertex start;
     private Vertex end;
 
+    public Edge(double cost) {
+        this.cost = cost;
+    }
+
+    
     public Edge(double cost, Vertex start, Vertex end) {
         this.cost = cost;
         this.start = start;
         this.end = end;
+    }
+
+    public boolean isIsIncluded() {
+        return isIncluded;
+    }
+
+    public void setIsIncluded(boolean isIncluded) {
+        this.isIncluded = isIncluded;
     }
 
     public double getCost() {

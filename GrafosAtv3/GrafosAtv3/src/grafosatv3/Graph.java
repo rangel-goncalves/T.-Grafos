@@ -8,9 +8,13 @@ import java.util.ArrayList;
  */
 
 public class Graph {
+    
+    private Point start;
+    private Point end;
     private ReadDoc reader1;
     private ArrayList<Vertex> verteces;
     private ArrayList<Edge> edges;
+    private ArrayList<Polygon> polygons;
     private Double [][] matrixG;
     private MatrixFloyd floydResult;
     final static Double INF = 99999.99;
@@ -19,6 +23,7 @@ public class Graph {
         this.reader1 = new ReadDoc();
         this.verteces = new ArrayList<Vertex>();
         this.edges = new ArrayList<Edge>();
+        this.polygons = new ArrayList<Polygon>();
     }
   
     public boolean addVertex(Vertex v){
@@ -64,6 +69,49 @@ public class Graph {
     
     public void readFromTxtUnoriented(){
         ArrayList<Point> reader  = new ReadDoc().FileUrl1();
+        this.start = reader.remove(0);
+        this.end = reader.remove(0);
+        Point init = reader.remove(0);
+        int n = init.x.intValue();
+        int k = init.y.intValue();
+        //System.out.println(n);
+        //System.out.println(k);
+        for (int i = 0; i < n; i++) {
+            //System.out.println(i);
+            Polygon lixo =  new Polygon();
+            this.polygons.add(lixo);
+        }
+        
+        while(reader.size()>0){
+            
+            for (int i = 0; i < n; i++) {
+                //System.out.println("=="+i+"==");
+                for (int j = 0; j < k; j++) {
+                    //System.out.println("=="+j+"==");
+                    Point p = new Point();
+                    if(reader.size()>0){
+                        p = reader.remove(0);
+                    }else{
+                        break;
+                    }
+                    //System.out.println("null? " + p.x+","+p.y);
+                    Vertex v = new Vertex(p, this.verteces.size());
+                    this.verteces.add(v);
+                    this.polygons.get(i).poly.add(p);
+                    System.out.println("poligono "+i+" "+this.polygons.get(i).poly.get(j).x+","+this.polygons.get(i).poly.get(j).y);
+                }
+                //System.out.println("=="+i+"==");
+                System.out.println("*******");
+                if(reader.size()>0){
+                    k = reader.remove(0).x.intValue();
+                    //System.out.println(k);
+                }else{
+                        break;
+                    }
+            }
+            
+            
+        }
         for (Point point : reader) {
             Vertex v = new Vertex(point,this.verteces.size());
             this.addVertex(v);
@@ -84,9 +132,8 @@ public class Graph {
     
     public void listVerteces(){
         for (Vertex vertece : verteces) {
-            System.out.print(vertece.getPoint().x+","+vertece.getPoint().y+".");
+            System.out.print("("+vertece.getPoint().x+","+vertece.getPoint().y+")");
         }
-        System.out.println("");
     }
     /**
      *@return  Lista todas as arestas no formato (inicio, destino, custo)

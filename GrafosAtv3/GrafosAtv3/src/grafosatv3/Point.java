@@ -6,7 +6,7 @@ package grafosatv3;
  */
 public class Point {
     
-    public double x, y;
+    public Double x, y;
 
     public Point() {
     }
