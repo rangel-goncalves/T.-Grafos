@@ -22,19 +22,14 @@ import java.util.regex.Pattern;
  */
 public class ReadDoc {
     
-    private File selectedFile1;
-   // private JSONArray JSONArray1;
-
     public ReadDoc() {
-        this.selectedFile1 = null;
-        //this.JSONArray1 =  null;
     }
     
     /**
     Ao invocar este metodo sera aberta uma janela para seleção do aqruivo desejado; 
      * @return 
     **/
-    public ArrayList<Point> FileUrl1(){
+   public ArrayList<Point> FileUrl1(){
         
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
         jfc.addChoosableFileFilter(new FileNameExtensionFilter("TXT FILE", "txt"));
@@ -47,72 +42,42 @@ public class ReadDoc {
             try {
                 FileReader reader = new FileReader(selectedFile);
                 BufferedReader buffer = new BufferedReader(reader);
-                //String line = buffer.readLine(); // Tiro a primeira linha que contem o numero de verteces e arestas
-                                                //isso pode ser facilmente calculado na classe Graph
                 String line ="";
                 line = buffer.readLine(); 
                 String aux = "";
                 while(line!=null){
-                    //System.out.println(line);
-                    //StringTokenizer st = new StringTokenizer(line," ");
                     line = line.replaceAll("," , "");
+                    if(line.length()<4){
+                        line += " 99999.99";
+                        
+                    }
                     //System.out.println(line);
                     Pattern p = Pattern.compile("\\d+.\\d+");
                     Matcher m = p.matcher(line);
                     while(m.find()) {
-                    //System.out.println(m.group());
-                    aux += m.group()+" ";
-                }
-                    Point ans = new Point();
-                    int i = 0;
-                    /*
-                    while (st.hasMoreTokens()) {
-                        ans[i] = st.nextToken();
-                        i++;
+                        aux += m.group()+" ";
                     }
-                    */
-                    //if(st.hasMoreTokens()) {
-                       //System.out.println(st.nextToken());
-                       //System.out.println(st.nextToken());
-                       //ans.x = Double.parseDouble(st.nextToken()) ;
-                       //ans.y = Double.parseDouble(st.nextToken()) ;
-                       //i++;
-                    //}else{
-                    //}
-                    
-                    
                     line = buffer.readLine();
                 }
-                StringTokenizer st = new StringTokenizer(aux);
+                //System.out.println(aux);
+                StringTokenizer st = new StringTokenizer(aux, " ");
+                
                 while (st.hasMoreTokens()) {
-                        
-                        //ans[i] = st.nextToken();
                         String x = st.nextToken();
-                        //System.out.println(x);
                         String y = st.nextToken();
-                        //System.out.println(y);
-                        //i++;
-                        //System.out.println(st.nextToken());
-                        Point ans = new Point(Double.parseDouble(x),Double.parseDouble(y));
-                        //ans.x = Double.parseDouble(x);
-                        //ans.y = Double.parseDouble(y);
-                        //System.out.println(ans.x+","+ans.y);
+                        //System.out.println(x+","+y);
+                        Point ans = new Point(Double.valueOf(x),Double.valueOf(y));
                         result.add(ans);
                     }
-                //System.out.println(aux);
-                /*
-                Pattern p = Pattern.compile("\\d+.\\d+");
-                Matcher m = p.matcher(aux);
-                while(m.find()) {
-                    System.out.println(m.group());
-                }
-                */
+                
                 reader.close();
                 return result;
+                
             } catch (IOException ex) {
                 System.out.println("ERRO: " + ex.getMessage());
             }
 	}
+        
         return result;
     }
     

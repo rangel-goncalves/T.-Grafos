@@ -73,7 +73,8 @@ public class Graph {
         this.end = reader.remove(0);
         Point init = reader.remove(0);
         int n = init.x.intValue();
-        int k = init.y.intValue();
+        //int k = init.y.intValue();
+        int k = reader.remove(0).x.intValue();
         //System.out.println(n);
         //System.out.println(k);
         for (int i = 0; i < n; i++) {
@@ -94,11 +95,12 @@ public class Graph {
                     }else{
                         break;
                     }
+                    Double h = Double.valueOf(1);
                     //System.out.println("null? " + p.x+","+p.y);
                     Vertex v = new Vertex(p, this.verteces.size());
                     this.verteces.add(v);
                     this.polygons.get(i).poly.add(p);
-                    System.out.println("poligono "+i+" "+this.polygons.get(i).poly.get(j).x+","+this.polygons.get(i).poly.get(j).y);
+                    System.out.println("poligono:"+i+" = "+this.polygons.get(i).poly.get(j).x+","+this.polygons.get(i).poly.get(j).y);
                 }
                 //System.out.println("=="+i+"==");
                 System.out.println("*******");
@@ -134,6 +136,7 @@ public class Graph {
         for (Vertex vertece : verteces) {
             System.out.print("("+vertece.getPoint().x+","+vertece.getPoint().y+")");
         }
+        System.out.println("");
     }
     /**
      *@return  Lista todas as arestas no formato (inicio, destino, custo)
