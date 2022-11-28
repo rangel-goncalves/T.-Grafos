@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Rangel
+ * @author Rangel.
  */
 public class Position_Point_WRT_Polygon
 {
