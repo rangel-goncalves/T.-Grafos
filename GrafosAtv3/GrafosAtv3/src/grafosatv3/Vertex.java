@@ -15,12 +15,16 @@ public class Vertex {
     private Point point;
     private ArrayList<Edge> inputEdges;
     private ArrayList<Edge> exitEdges;
+    private ArrayList<Vertex> adjList;
+    private Boolean visited;
 
     public Vertex(Point point, int ordem) {
         this.point = point;
         this.ordem = ordem;
         this.inputEdges = new ArrayList<>();
         this.exitEdges =  new ArrayList<>();
+        this.adjList = new ArrayList<>();
+        this.visited = false;
     }
     
     
@@ -61,6 +65,24 @@ public class Vertex {
     public void setOrdem(int ordem) {
         this.ordem = ordem;
     }
+
+    public Boolean getVisited() {
+        return visited;
+    }
+
+    public void setVisited(Boolean visited) {
+        this.visited = visited;
+    }
+
+    public ArrayList<Vertex> getAdjList() {
+        return adjList;
+    }
+
+    public void setAdjList(ArrayList<Vertex> adjList) {
+        this.adjList = adjList;
+    }
+    
+    
     
     /**
      * 

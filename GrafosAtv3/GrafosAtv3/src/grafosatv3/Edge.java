@@ -2,13 +2,13 @@ package grafosatv3;
 /**
  * @author Rangel
  */
-public class Edge {
+public class Edge implements Comparable<Edge> {
     
     //private int weight;
     private boolean isIncluded = false;
-    private double cost;
+    private Double cost;
     private Vertex start;
-    private Vertex end;
+    private Vertex end; 
 
     public Edge(double cost) {
         this.cost = cost;
@@ -51,6 +51,11 @@ public class Edge {
 
     public void setEnd(Vertex end) {
         this.end = end;
+    }
+
+    @Override
+    public int compareTo(Edge compareEdge) {
+        return this.cost.compareTo(compareEdge.getCost());
     }
     
 }

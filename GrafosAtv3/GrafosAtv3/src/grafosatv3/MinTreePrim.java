@@ -7,12 +7,12 @@ import java.util.Objects;
  *
  * @author Rangel
  */
-public class MinTree{
+public class MinTreePrim{
     
     private ArrayList<Vertex> verteces;
     private ArrayList<Edge> edges;
 
-    public MinTree() {
+    public MinTreePrim() {
         this.verteces = new ArrayList<>();
         this.edges = new ArrayList<>();
     }
@@ -33,7 +33,8 @@ public class MinTree{
             Edge edge = new Edge(cost,startData,endData);
             endData.addInputEdges(edge);
             startData.addExitEdges(edge);
-            System.out.println("adiconei"+ startData.getOrdem()+"--"+endData.getOrdem());
+            startData.getAdjList().add(endData);
+            //System.out.println("adiconei"+ startData.getOrdem()+"--"+endData.getOrdem());
             edges.add(edge);
         }
     }
@@ -90,4 +91,24 @@ public class MinTree{
         }
     }
     
+    public void dfs(int source){
+        
+        this.getVertex(source).setVisited(true);
+        System.out.println(source);
+        for (Vertex vertex : this.getVertex(source).getAdjList()) {
+            //System.out.println(this.getVertex(source).getOrdem()+","+vertex.getOrdem());
+            if (!vertex.getVisited()) {
+                dfs(vertex.getOrdem());
+            }
+        }
+        /*
+        adj_list *adj_list = graph->vertices[source];
+        while (adj_list != NULL) {
+            if (!graph->visited[adj_list->item]) {
+            dfs(graph, adj_list->item);
+            }
+        adj_list = adj_list->next;
+        }
+        */
+    }       
 }

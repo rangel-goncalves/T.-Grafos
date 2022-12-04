@@ -4,7 +4,7 @@
  */
 package grafosatv3;
 
-import java.util.ArrayList;
+
 
 /**
  * falta muito, ainda falta muito mas falta menos
@@ -22,8 +22,8 @@ public class GrafosAtv3 {
         g.readFromTxtUnoriented();
 
         g.createEdges();
-
-        g.getMinTree().buscaEmLargura();
+        System.out.println("Busca\n\n");
+        g.getMinTreePrim().dfs(0);
 
     }
     

@@ -1,6 +1,7 @@
 package grafosatv3;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -9,8 +10,8 @@ import java.util.Objects;
  */
 
 public class Graph {
-    
-    private MinTree minTree;
+    private kruskalEdge[] kruskalEdge;
+    private MinTreePrim minTreePrim;
     private Point start;
     private Point end;
     private ArrayList<Vertex> verteces;
@@ -23,7 +24,7 @@ public class Graph {
         this.verteces = new ArrayList<>();
         this.edges = new ArrayList<>();
         this.polygons = new ArrayList<>();
-        this.minTree = new MinTree();
+        this.minTreePrim = new MinTreePrim();
     }
   
     public boolean addVertex(Vertex v){
@@ -157,11 +158,20 @@ public class Graph {
                                  +Math.pow((vertece.getPoint().y-vertece1.getPoint().y), 2));
                     
                     this.addEdge(cost, vertece, vertece1);
-                    this.getVertex(9).getCustExpecificEdge(9);
                 }
             }
         }
         this.transforIntoMatrix();
+        kruskalEdge = new kruskalEdge[this.edges.size()];
+        for (int i = 0; i < this.edges.size(); ++i){
+            this.kruskalEdge[i] = new kruskalEdge();
+            this.kruskalEdge[i].setSrc(this.edges.get(i).getStart().getOrdem());
+            this.kruskalEdge[i].setDest(this.edges.get(i).getEnd().getOrdem());
+            this.kruskalEdge[i].setWeight(this.edges.get(i).getCost());
+        }
+        System.out.println("\t"+"Iniciando Algoritimo de Kruskal");
+        this.KruskalMST();
+        System.out.println("\t"+"Fim do Algoritimo de Kruskal");
     }
 
     public ArrayList<Vertex> getVerteces() {
@@ -172,8 +182,8 @@ public class Graph {
         return edges;
     }
 
-    public MinTree getMinTree() {
-        return minTree;
+    public MinTreePrim getMinTreePrim() {
+        return minTreePrim;
     }
     
     public void listVerteces(){
@@ -224,9 +234,9 @@ public class Graph {
                 }
             }
         }
-        System.out.println("Iniciando Algoritimo de Prim");
+        System.out.println("\t"+"Iniciando Algoritimo de Prim");
         this.primMST(matrixGg);
-        System.out.println("Fim do Algoritimo de Prim");
+        System.out.println("\t"+"Fim do Algoritimo de Prim");
         return matrixGg;
     }
 
@@ -259,75 +269,157 @@ public class Graph {
     // stored in parent[]
     public void printMST(int parent[], Double graph[][])
     {
+        Double minimumCost=0.0;
         System.out.println("Edge \tWeight");
         for (int i = 1; i < this.verteces.size(); i++){
             System.out.println(parent[i] + " - " + i + "\t"+ graph[i][parent[i]]);
+            minimumCost +=graph[i][parent[i]];
             Vertex v = new Vertex(this.getVertex(parent[i]).getPoint(), parent[i]);
             Vertex v1 = new Vertex(this.getVertex(i).getPoint(), i);
-            this.minTree.addVertex(v);
-            this.minTree.addVertex(v1);
-            this.minTree.addEdge(graph[i][parent[i]], v.getOrdem(), v1.getOrdem());
-            this.minTree.addEdge(graph[i][parent[i]], v1.getOrdem(), v.getOrdem());
+            this.minTreePrim.addVertex(v);
+            this.minTreePrim.addVertex(v1);
+            this.minTreePrim.addEdge(graph[i][parent[i]], v.getOrdem(), v1.getOrdem());
+            this.minTreePrim.addEdge(graph[i][parent[i]], v1.getOrdem(), v.getOrdem());
         }
-        //System.out.println(this.minTree.getVertex(0).getExitEdges().size());
+        System.out.println("Minimum Cost Spanning Tree "
+                           + minimumCost);
     }
  
-    // Function to construct and print MST for a graph
-    // represented using adjacency matrix representation
-    public void primMST(Double graph[][])
-    {
-        // Array to store constructed MST
+    public void primMST(Double graph[][]){
+        
         int parent[] = new int[this.verteces.size()];
- 
-        // Key values used to pick minimum weight edge in
-        // cut
+
         Double key[] = new Double[this.verteces.size()];
- 
-        // To represent set of vertices included in MST
+
         Boolean mstSet[] = new Boolean[this.verteces.size()];
- 
-        // Initialize all keys as INFINITE
+
         for (int i = 0; i < this.verteces.size(); i++) {
             key[i] = Double.MAX_VALUE;
             mstSet[i] = false;
         }
+
+        key[0] = 0.0;
+        parent[0] = -1;
  
-        // Always include first 1st vertex in MST.
-        key[0] = 0.0; // Make key 0 so that this vertex is
-        // picked as first vertex
-        parent[0] = -1; // First node is always root of MST
- 
-        // The MST will have V vertices
         for (int count = 0; count < this.verteces.size() - 1; count++) {
-            // Pick thd minimum key vertex from the set of
-            // vertices not yet included in MST
             int u = minKey(key, mstSet);
  
-            // Add the picked vertex to the MST Set
             mstSet[u] = true;
- 
-            // Update key value and parent index of the
-            // adjacent vertices of the picked vertex.
-            // Consider only those vertices which are not
-            // yet included in MST
-            for (int v = 0; v < this.verteces.size(); v++)
- 
-                // graph[u][v] is non zero only for adjacent
-                // vertices of m mstSet[v] is false for
-                // vertices not yet included in MST Update
-                // the key only if graph[u][v] is smaller
-                // than key[v]
+
+            for (int v = 0; v < this.verteces.size(); v++){
+
                 if (graph[u][v] != 0 && mstSet[v] == false
                     && graph[u][v] < key[v]) {
                     parent[v] = u;
                     key[v] = graph[u][v];
                 }
+            }
         }
- 
-        // print the constructed MST
         this.printMST(parent, graph);
     }
     
     ////////////////////Fim Prim//////////////
+    
+    ///////////////////kruskal////////////////
+    
+    public int find(subSet subsets[], int i)
+    {
+        // find root and make root as parent of i
+        // (path compression)
+        if (subsets[i].parent != i)
+            subsets[i].parent
+                = find(subsets, subsets[i].parent);
+ 
+        return subsets[i].parent;
+    }
+    
+    public void Union(subSet subsets[], int x, int y)
+    {
+        int xroot = find(subsets, x);
+        int yroot = find(subsets, y);
+ 
+        // Attach smaller rank tree under root
+        // of high rank tree (Union by Rank)
+        if (subsets[xroot].rank < subsets[yroot].rank)
+            subsets[xroot].parent = yroot;
+        else if (subsets[xroot].rank > subsets[yroot].rank)
+            subsets[yroot].parent = xroot;
+ 
+        // If ranks are same, then make one as
+        // root and increment its rank by one
+        else {
+            subsets[yroot].parent = xroot;
+            subsets[xroot].rank++;
+        }
+    }
+    
+    public void KruskalMST()
+    {
+        // This will store the resultant MST
+        kruskalEdge result[] = new kruskalEdge[this.verteces.size()];
+ 
+        // An index variable, used for result[]
+        int e = 0;
+ 
+        // An index variable, used for sorted edges
+        int i = 0;
+        for (i = 0; i < this.verteces.size(); ++i)
+            result[i] = new kruskalEdge();
+ 
+        // Step 1:  Sort all the edges in non-decreasing
+        // order of their weight.  If we are not allowed to
+        // change the given graph, we can create a copy of
+        // array of edges
+        Arrays.sort(this.kruskalEdge);
+ 
+        // Allocate memory for creating V subsets
+        subSet subsets[] = new subSet[this.verteces.size()];
+        for (i = 0; i < this.verteces.size(); ++i)
+            subsets[i] = new subSet();
+ 
+        // Create V subsets with single elements
+        for (int v = 0; v < this.verteces.size(); ++v) {
+            subsets[v].parent = v;
+            subsets[v].rank = 0;
+        }
+ 
+        i = 0; // Index used to pick next edge
+ 
+        // Number of edges to be taken is equal to V-1
+        while (e < this.verteces.size() - 1) {
+            // Step 2: Pick the smallest edge. And increment
+            // the index for next iteration
+            kruskalEdge next_edge = this.kruskalEdge[i++];
+ 
+            int x = find(subsets, next_edge.getSrc());
+            int y = find(subsets, next_edge.getDest());
+ 
+            // If including this edge doesn't cause cycle,
+            // include it in result and increment the index
+            // of result for next edge
+            if (x != y) {
+                result[e++] = next_edge;
+                Union(subsets, x, y);
+            }
+            // Else discard the next_edge
+        }
+ 
+        // print the contents of result[] to display
+        // the built MST
+        System.out.println("Following are the edges in "
+                           + "the constructed MST");
+        Double minimumCost = 0.0;
+        System.out.println("Edge \tWeight");
+        for (i = 0; i < e; ++i) {
+            System.out.println(result[i].getSrc() + " - "
+                               + result[i].getDest()
+                               + "\t"+ result[i].getWeight());
+            minimumCost += result[i].getWeight();
+        }
+        System.out.println("Minimum Cost Spanning Tree "
+                           + minimumCost);
+    }
+    
+    /////////////////Fim kruskal/////////////
     
 }
