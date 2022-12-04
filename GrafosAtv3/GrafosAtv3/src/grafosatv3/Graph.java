@@ -111,7 +111,11 @@ public class Graph {
         v = new Vertex(this.end, this.verteces.size());
         this.addVertex(v);
     }
-
+    
+    /**
+     * Função utilizada para a acriação das arestas.
+     * Cria uma equação para cada dupla de pontos verificados e verifica se estes pontos podem ser ligados
+     */
     public void createEdges(){
         for (Vertex vertece : this.verteces) {
             Double Y = 0.0;
@@ -121,39 +125,49 @@ public class Graph {
                 if(Objects.equals(vertece.getPoint().x, vertece1.getPoint().x)){
                     continue;
                 }
-                int i = 0;
+                
+                // m = coeficiente angular da reta
                 m = (vertece.getPoint().y - vertece1.getPoint().y)/(vertece.getPoint().x - vertece1.getPoint().x);
-         
+                //verifica se o valor de x do ponto de destino é maior ou menor do que o do ponto de origem 
+                // para limitar o segmento de reta
                 if(vertece1.getPoint().x<=vertece.getPoint().x){
+                    // se for menor o valor de X decresse ate atingir o valor de x
                     for (Double X = vertece.getPoint().x;
                         X > vertece1.getPoint().x 
                         ; X -= 0.01) {
-                    Y = (m * (X - vertece.getPoint().x)) + vertece.getPoint().y;
-                    Point p = new Point(X,Y);
-                    for (int j = 0; j < this.polygons.size()-1; j++) {
-                        if(Position_Point_WRT_Polygon.isInside(this.polygons.get(j).getPoints(),this.polygons.get(j).getPoints().length,p)){
-                        dentro = true;
+                        // equação da reta
+                        Y = (m * (X - vertece.getPoint().x)) + vertece.getPoint().y;
+                        Point p = new Point(X,Y);
+                        // testa se o algum dos pontos pertencentes a reta passa por dentro de algum dos poligonos
+                        for (int j = 0; j < this.polygons.size()-1; j++) {
+                            if(Position_Point_WRT_Polygon.isInside(this.polygons.get(j).getPoints(),
+                                    this.polygons.get(j).getPoints().length,
+                                    p)){
+                                dentro = true;
+                            }
                         }
                     }
-                    
-                }
                 }else{
+                    // se for maior o valor de X acresse ate atingir o valor de x
                     for (Double X = vertece.getPoint().x;
                         X < vertece1.getPoint().x
                         ; X += 0.01) {
+                        // equação da reta
                         Y = (m * (X - vertece.getPoint().x)) + vertece.getPoint().y;
                         Point p = new Point(X,Y);
+                        // testa se o algum dos pontos pertencentes a reta passa por dentro de algum dos poligonos
                         for (int j = 0; j < this.polygons.size()-1; j++) {
-                            if(Position_Point_WRT_Polygon.isInside(this.polygons.get(j).getPoints(),this.polygons.get(j).getPoints().length,p)){
+                            if(Position_Point_WRT_Polygon.isInside(this.polygons.get(j).getPoints(),
+                                    this.polygons.get(j).getPoints().length,
+                                    p)){
                                 dentro = true;
                             }
                         }
                     }
                 }
-
-                i++;
+                // caso nenhum ponto esteja dentro de algum poligono a aresta é criada
                 if(!dentro){
-                    
+                    // calculo do custo da aresta (módulo do vetor entre os dois pontos)
                     Double cost = Math.sqrt(Math.pow((vertece.getPoint().x-vertece1.getPoint().x), 2)
                                  +Math.pow((vertece.getPoint().y-vertece1.getPoint().y), 2));
                     
@@ -162,6 +176,7 @@ public class Graph {
             }
         }
         this.transforIntoMatrix();
+        // criação das arestas para o Algoritimo de Kruskal
         kruskalEdge = new kruskalEdge[this.edges.size()];
         for (int i = 0; i < this.edges.size(); ++i){
             this.kruskalEdge[i] = new kruskalEdge();
@@ -265,8 +280,11 @@ public class Graph {
         return min_index;
     }
  
-    // A utility function to print the constructed MST
-    // stored in parent[]
+    /**
+     * Função Auxiliar(ALgoritimo de Prim). Printa a Arvore mínima
+     * @param parent
+     * @param graph 
+     */
     public void printMST(int parent[], Double graph[][])
     {
         Double minimumCost=0.0;
@@ -284,7 +302,10 @@ public class Graph {
         System.out.println("Minimum Cost Spanning Tree "
                            + minimumCost);
     }
- 
+    
+    /**
+     * Algoritimo de Prim para geração de arvore mínima
+     */
     public void primMST(Double graph[][]){
         
         int parent[] = new int[this.verteces.size()];
@@ -322,10 +343,14 @@ public class Graph {
     
     ///////////////////kruskal////////////////
     
-    public int find(subSet subsets[], int i)
+    /**
+     * Função Auxiliar(ALgoritimo de Kruskal)
+     * @param subsets
+     * @param i
+     * @return 
+     */
+    public int find(subSet subsets[], int i)  
     {
-        // find root and make root as parent of i
-        // (path compression)
         if (subsets[i].parent != i)
             subsets[i].parent
                 = find(subsets, subsets[i].parent);
@@ -333,79 +358,35 @@ public class Graph {
         return subsets[i].parent;
     }
     
+    /**
+     * Função Auxiliar(ALgoritimo de Kruskal)
+     * @param subsets
+     * @param x
+     * @param y 
+     */
     public void Union(subSet subsets[], int x, int y)
     {
         int xroot = find(subsets, x);
         int yroot = find(subsets, y);
- 
-        // Attach smaller rank tree under root
-        // of high rank tree (Union by Rank)
+
         if (subsets[xroot].rank < subsets[yroot].rank)
             subsets[xroot].parent = yroot;
         else if (subsets[xroot].rank > subsets[yroot].rank)
             subsets[yroot].parent = xroot;
- 
-        // If ranks are same, then make one as
-        // root and increment its rank by one
+
         else {
             subsets[yroot].parent = xroot;
             subsets[xroot].rank++;
         }
     }
     
-    public void KruskalMST()
-    {
-        // This will store the resultant MST
-        kruskalEdge result[] = new kruskalEdge[this.verteces.size()];
- 
-        // An index variable, used for result[]
-        int e = 0;
- 
-        // An index variable, used for sorted edges
-        int i = 0;
-        for (i = 0; i < this.verteces.size(); ++i)
-            result[i] = new kruskalEdge();
- 
-        // Step 1:  Sort all the edges in non-decreasing
-        // order of their weight.  If we are not allowed to
-        // change the given graph, we can create a copy of
-        // array of edges
-        Arrays.sort(this.kruskalEdge);
- 
-        // Allocate memory for creating V subsets
-        subSet subsets[] = new subSet[this.verteces.size()];
-        for (i = 0; i < this.verteces.size(); ++i)
-            subsets[i] = new subSet();
- 
-        // Create V subsets with single elements
-        for (int v = 0; v < this.verteces.size(); ++v) {
-            subsets[v].parent = v;
-            subsets[v].rank = 0;
-        }
- 
-        i = 0; // Index used to pick next edge
- 
-        // Number of edges to be taken is equal to V-1
-        while (e < this.verteces.size() - 1) {
-            // Step 2: Pick the smallest edge. And increment
-            // the index for next iteration
-            kruskalEdge next_edge = this.kruskalEdge[i++];
- 
-            int x = find(subsets, next_edge.getSrc());
-            int y = find(subsets, next_edge.getDest());
- 
-            // If including this edge doesn't cause cycle,
-            // include it in result and increment the index
-            // of result for next edge
-            if (x != y) {
-                result[e++] = next_edge;
-                Union(subsets, x, y);
-            }
-            // Else discard the next_edge
-        }
- 
-        // print the contents of result[] to display
-        // the built MST
+    /**
+     * Função Auxiliar(ALgoritimo de Kruskal). Printa a Arvore mínima
+     * @param result
+     * @param i
+     * @param e 
+     */
+    public void PrintKruskalMST(kruskalEdge result[],int i, int e){
         System.out.println("Following are the edges in "
                            + "the constructed MST");
         Double minimumCost = 0.0;
@@ -419,7 +400,48 @@ public class Graph {
         System.out.println("Minimum Cost Spanning Tree "
                            + minimumCost);
     }
-    
+ 
+    /**
+     * Algoritimo de Kruskal para geração de arvore mínima
+     */
+    public void KruskalMST()
+    {
+        kruskalEdge result[] = new kruskalEdge[this.verteces.size()];
+ 
+        int e = 0;
+ 
+        int i = 0;
+        for (i = 0; i < this.verteces.size(); ++i){
+            result[i] = new kruskalEdge();
+        }
+
+        Arrays.sort(this.kruskalEdge);
+ 
+        subSet subsets[] = new subSet[this.verteces.size()];
+        for (i = 0; i < this.verteces.size(); ++i)
+            subsets[i] = new subSet();
+ 
+        for (int v = 0; v < this.verteces.size(); ++v) {
+            subsets[v].parent = v;
+            subsets[v].rank = 0;
+        }
+ 
+        i = 0;
+
+        while (e < this.verteces.size() - 1) {
+            
+            kruskalEdge next_edge = this.kruskalEdge[i++];
+ 
+            int x = find(subsets, next_edge.getSrc());
+            int y = find(subsets, next_edge.getDest());
+ 
+            if (x != y) {
+                result[e++] = next_edge;
+                Union(subsets, x, y);
+            }
+        }
+        this.PrintKruskalMST(result, i, e);
+    }
     /////////////////Fim kruskal/////////////
     
 }

@@ -1,8 +1,6 @@
 package grafosatv3;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -78,6 +76,10 @@ public class Vertex {
         return adjList;
     }
 
+    /**
+     * Função utilizada para auxiliar em MinTreePrim.dfs()
+     * @param adjList 
+     */
     public void setAdjList(ArrayList<Vertex> adjList) {
         this.adjList = adjList;
     }

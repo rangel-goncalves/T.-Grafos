@@ -5,11 +5,14 @@ package grafosatv3;
 public class Edge implements Comparable<Edge> {
     
     //private int weight;
-    private boolean isIncluded = false;
     private Double cost;
     private Vertex start;
     private Vertex end; 
 
+    /**
+     * Classe com as aresats montadas pelo Grafo inicial que possui todas as aresatas possiveis
+     * @param cost 
+     */
     public Edge(double cost) {
         this.cost = cost;
     }
@@ -19,14 +22,6 @@ public class Edge implements Comparable<Edge> {
         this.cost = cost;
         this.start = start;
         this.end = end;
-    }
-
-    public boolean isIsIncluded() {
-        return isIncluded;
-    }
-
-    public void setIsIncluded(boolean isIncluded) {
-        this.isIncluded = isIncluded;
     }
 
     public double getCost() {
@@ -53,6 +48,11 @@ public class Edge implements Comparable<Edge> {
         this.end = end;
     }
 
+    /**
+     * Utilizada para Classificar as arestas de menor custo para realizar o Algoritimo de Kruskal
+     * @param compareEdge
+     * @return 
+     */
     @Override
     public int compareTo(Edge compareEdge) {
         return this.cost.compareTo(compareEdge.getCost());

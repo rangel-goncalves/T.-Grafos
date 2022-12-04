@@ -22,8 +22,8 @@ public class GrafosAtv3 {
         g.readFromTxtUnoriented();
 
         g.createEdges();
-        System.out.println("Busca\n\n");
-        g.getMinTreePrim().dfs(0);
+        //System.out.println("Busca\n\n");
+        //g.getMinTreePrim().dfs(0);
 
     }
     

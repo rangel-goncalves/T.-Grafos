@@ -25,7 +25,13 @@ public class MinTreePrim{
         }
         return false;
     }
-    
+    /**
+     * Cria as Arestas para a Arvore mínima gerada pelo Algoritimo de Prim e também
+     * cria a AdjList de cada vertice que forma a arvore.
+     * @param cost
+     * @param start
+     * @param end 
+     */
     public void addEdge(Double cost, int start, int end){
         Vertex endData = this.getVertex(end);
         Vertex startData = this.getVertex(start);
@@ -34,11 +40,15 @@ public class MinTreePrim{
             endData.addInputEdges(edge);
             startData.addExitEdges(edge);
             startData.getAdjList().add(endData);
-            //System.out.println("adiconei"+ startData.getOrdem()+"--"+endData.getOrdem());
             edges.add(edge);
         }
     }
     
+    /**
+     * Busca e retorna Vertex espeficado através de suas coordenadas
+     * @param data
+     * @return 
+     */
     public Vertex getVertex(Double[] data){
         Vertex finder = null;
         for (int i = 0; i < this.verteces.size(); i++) {
@@ -50,6 +60,11 @@ public class MinTreePrim{
         return finder;
     }
     
+    /**
+     * Busca e retorna um Vertex através de seu identificador(Ordem())
+     * @param data
+     * @return 
+     */
     public Vertex getVertex(int data){
         Vertex finder = null;
         for (int i = 0; i < this.verteces.size(); i++) {
@@ -70,6 +85,9 @@ public class MinTreePrim{
         return a;
     }
 
+     /**
+      * Função de Busca em Largura
+      */
     public void buscaEmLargura(){
         ArrayList<Vertex> marcados = new ArrayList<>();
         ArrayList<Vertex> fila = new ArrayList<>();
@@ -91,24 +109,17 @@ public class MinTreePrim{
         }
     }
     
+    /**
+     * Função de Busca em Profundidade
+     * @param source 
+     */
     public void dfs(int source){
-        
         this.getVertex(source).setVisited(true);
         System.out.println(source);
         for (Vertex vertex : this.getVertex(source).getAdjList()) {
-            //System.out.println(this.getVertex(source).getOrdem()+","+vertex.getOrdem());
             if (!vertex.getVisited()) {
                 dfs(vertex.getOrdem());
             }
         }
-        /*
-        adj_list *adj_list = graph->vertices[source];
-        while (adj_list != NULL) {
-            if (!graph->visited[adj_list->item]) {
-            dfs(graph, adj_list->item);
-            }
-        adj_list = adj_list->next;
-        }
-        */
     }       
 }
