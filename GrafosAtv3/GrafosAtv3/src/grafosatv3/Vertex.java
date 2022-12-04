@@ -10,12 +10,7 @@ import java.util.Map;
  *
  */
 public class Vertex {
-
     
-    
-    private String label = null;
-    private Map<Vertex, Edge> edges = new HashMap<>();
-    private boolean isVisited = false;
     private int ordem;
     private Point point;
     private ArrayList<Edge> inputEdges;
@@ -33,30 +28,6 @@ public class Vertex {
         this.point = new Point();
         this.inputEdges = new ArrayList<>();
         this.exitEdges = new ArrayList<>();
-    }
-    
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public Map<Vertex, Edge> getEdges() {
-        return edges;
-    }
-
-    public void setEdges(Map<Vertex, Edge> edges) {
-        this.edges = edges;
-    }
-
-    public boolean isIsVisited() {
-        return isVisited;
-    }
-
-    public void setIsVisited(boolean isVisited) {
-        this.isVisited = isVisited;
     }
 
     public ArrayList<Edge> getInputEdges() {
@@ -97,13 +68,14 @@ public class Vertex {
      * @return o custo de uma determinada aresta se ela não existir retorna 0 
      */
     public Double getCustExpecificEdge(int data){
+        
         Double cost = 0.00;
         
         for (Edge exitEdge : exitEdges) {
-            /*if(exitEdge.getEnd()== data){
+            if(exitEdge.getEnd().getOrdem() == data){
                 cost = (Double)exitEdge.getCost();
                 return cost;
-            }*/
+            }
         }
         return cost;
     }

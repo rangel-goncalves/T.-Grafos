@@ -1,6 +1,7 @@
 package grafosatv3;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * @author Rangel
@@ -9,21 +10,20 @@ import java.util.ArrayList;
 
 public class Graph {
     
+    private MinTree minTree;
     private Point start;
     private Point end;
-    private ReadDoc reader1;
     private ArrayList<Vertex> verteces;
     private ArrayList<Edge> edges;
     private ArrayList<Polygon> polygons;
     private Double [][] matrixG;
-    private MatrixFloyd floydResult;
     final static Double INF = 99999.99;
     
     public Graph() {
-        this.reader1 = new ReadDoc();
-        this.verteces = new ArrayList<Vertex>();
-        this.edges = new ArrayList<Edge>();
-        this.polygons = new ArrayList<Polygon>();
+        this.verteces = new ArrayList<>();
+        this.edges = new ArrayList<>();
+        this.polygons = new ArrayList<>();
+        this.minTree = new MinTree();
     }
   
     public boolean addVertex(Vertex v){
@@ -47,7 +47,18 @@ public class Graph {
     public Vertex getVertex(Double[] data){
         Vertex finder = null;
         for (int i = 0; i < this.verteces.size(); i++) {
-            if(this.verteces.get(i).getPoint().x==data[0] && this.verteces.get(i).getPoint().y ==data[1]){
+            if(Objects.equals(this.verteces.get(i).getPoint().x, data[0]) && Objects.equals(this.verteces.get(i).getPoint().y, data[1])){
+                finder = this.verteces.get(i);
+                break;
+            } 
+        }
+        return finder;
+    }
+    
+    public Vertex getVertex(int data){
+        Vertex finder = null;
+        for (int i = 0; i < this.verteces.size(); i++) {
+            if(Objects.equals(this.verteces.get(i).getOrdem() , data)){
                 finder = this.verteces.get(i);
                 break;
             } 
@@ -59,14 +70,13 @@ public class Graph {
         ArrayList<Point> reader  = new ReadDoc().FileUrl1();
         this.start = reader.remove(0);
         Vertex v = new Vertex(this.start, this.verteces.size());
-        this.verteces.add(v);
+        this.addVertex(v);
         this.end = reader.remove(0);
         Point init = reader.remove(0);
         int n = init.x.intValue();
         int k = reader.remove(0).x.intValue();
         
         for (int i = 0; i < n; i++) {
-            //System.out.println(i);
             Polygon lixo =  new Polygon();
             this.polygons.add(lixo);
         }
@@ -85,12 +95,11 @@ public class Graph {
                         }
 
                     v = new Vertex(p, this.verteces.size());
-                    this.verteces.add(v);
+                    this.addVertex(v);
                     this.polygons.get(i).poly.add(p);
-                    System.out.println("poligono:"+i+" = "+this.polygons.get(i).poly.get(j).x+","+this.polygons.get(i).poly.get(j).y);
+                    
                 }
 
-                System.out.println("*******");
                 if(!reader.isEmpty()){
                     k = reader.remove(0).x.intValue();
                 }else{
@@ -98,13 +107,8 @@ public class Graph {
                     }
             }
         }
-        /*
-        for (Point point : reader) {
-            Vertex v = new Vertex(point,this.verteces.size());
-            this.addVertex(v);
-        }*/
         v = new Vertex(this.end, this.verteces.size());
-        this.verteces.add(v);
+        this.addVertex(v);
     }
 
     public void createEdges(){
@@ -113,47 +117,63 @@ public class Graph {
             for (Vertex vertece1 : this.verteces) {
                 Double m = 0.0;
                 Boolean dentro = false;
-                if(vertece.getPoint().x==vertece1.getPoint().x){
+                if(Objects.equals(vertece.getPoint().x, vertece1.getPoint().x)){
                     continue;
                 }
-                //Double X = vertece.getPoint().x;
                 int i = 0;
                 m = (vertece.getPoint().y - vertece1.getPoint().y)/(vertece.getPoint().x - vertece1.getPoint().x);
-                
-                //System.out.println(vertece.getPoint().x +","+ vertece.getPoint().y+"---"+vertece1.getPoint().x+","+vertece1.getPoint().y);
-                
-                for (Double X = vertece.getPoint().x;
-                        X < (vertece1.getPoint().x>=vertece.getPoint().x? vertece1.getPoint().x:vertece.getPoint().x)
-                        ; X += 0.1) {
+         
+                if(vertece1.getPoint().x<=vertece.getPoint().x){
+                    for (Double X = vertece.getPoint().x;
+                        X > vertece1.getPoint().x 
+                        ; X -= 0.01) {
                     Y = (m * (X - vertece.getPoint().x)) + vertece.getPoint().y;
                     Point p = new Point(X,Y);
-                    //System.out.println(Y+","+X+" M = "+m+" i = "+i);
-                    //System.out.println(Y+" = Y = "+ m +"("+X+"-"+vertece.getPoint().x+") + "+ vertece.getPoint().y);
-                    System.out.println(Position_Point_WRT_Polygon.isInside(this.polygons.get(i).getPoints(),this.polygons.size(),p));
                     for (int j = 0; j < this.polygons.size()-1; j++) {
-                        if(Position_Point_WRT_Polygon.isInside(this.polygons.get(j).getPoints(),this.polygons.get(i).getPoints().length,p)){
-                        //System.out.println("entrei nessa merdaaaaaa");
+                        if(Position_Point_WRT_Polygon.isInside(this.polygons.get(j).getPoints(),this.polygons.get(j).getPoints().length,p)){
                         dentro = true;
                         }
                     }
                     
-                    //System.out.println(Y+" = Y = "+ m +"("+X+"-"+vertece.getPoint().x+") + "+ vertece.getPoint().y); 
-                } 
+                }
+                }else{
+                    for (Double X = vertece.getPoint().x;
+                        X < vertece1.getPoint().x
+                        ; X += 0.01) {
+                        Y = (m * (X - vertece.getPoint().x)) + vertece.getPoint().y;
+                        Point p = new Point(X,Y);
+                        for (int j = 0; j < this.polygons.size()-1; j++) {
+                            if(Position_Point_WRT_Polygon.isInside(this.polygons.get(j).getPoints(),this.polygons.get(j).getPoints().length,p)){
+                                dentro = true;
+                            }
+                        }
+                    }
+                }
+
                 i++;
                 if(!dentro){
-                    this.addEdge(0.0, vertece, vertece1);
+                    
+                    Double cost = Math.sqrt(Math.pow((vertece.getPoint().x-vertece1.getPoint().x), 2)
+                                 +Math.pow((vertece.getPoint().y-vertece1.getPoint().y), 2));
+                    
+                    this.addEdge(cost, vertece, vertece1);
+                    this.getVertex(9).getCustExpecificEdge(9);
                 }
             }
-            break;
         }
+        this.transforIntoMatrix();
     }
-    
+
     public ArrayList<Vertex> getVerteces() {
         return verteces;
     }
 
     public ArrayList<Edge> getEdges() {
         return edges;
+    }
+
+    public MinTree getMinTree() {
+        return minTree;
     }
     
     public void listVerteces(){
@@ -168,7 +188,6 @@ public class Graph {
     public String listEdges(){
         String a = "";
         for (Edge edge : edges) {
-            //a=a+edge.getStart().getRank() +"-->" + edge.getEnd().getRank() + " cost:"+edge.getCost()+"\n";
             System.out.println(edge.getStart().getPoint().x+","+edge.getStart().getPoint().y +"-->"
                                 + edge.getEnd().getPoint().x+","+edge.getEnd().getPoint().y + " cost:"+edge.getCost()+"\n");
         }
@@ -179,7 +198,9 @@ public class Graph {
      * @return 
      */
     public Double[][] transforIntoMatrix(){
+        
         this.matrixG = new Double [this.verteces.size()+1][this.verteces.size()+1];
+        
         for (Vertex vertece : verteces) {
             for (int i = 0; i < this.verteces.size()+1; i++) {
                 int aux = vertece.getOrdem();
@@ -189,129 +210,24 @@ public class Graph {
         /*
             Eliminando a linha e a colula [0,0] so pra não printar tudo INF nela
         */
-        Double [][] matrixGg = new Double [this.verteces.size()][this.verteces.size()];
+        Double [][] matrixGg = new Double [this.verteces.size()+1][this.verteces.size()+1];
         for (int i = 0; i < this.verteces.size(); i++) {
             for (int j = 0; j < this.verteces.size(); j++) {
-                if(this.matrixG[i+1][j+1] == 0){
+                if(this.matrixG[i][j] == 0 /*&& this.matrixG[j][i] == 0*/){
                     if(i==j){
                         matrixGg [i][j] = 0.00;
                     }else{
                         matrixGg [i][j] = INF;
                     }
                 }else{
-                    matrixGg [i][j]=this.matrixG[i+1][j+1];
+                    matrixGg [i][j]=this.matrixG[i][j] /*== 0 ? this.matrixG[j][i]: this.matrixG[i][j]*/ ;
                 }
-                //System.out.println(matrixGg[i][j]+" ");
             }
-            //System.out.println("*****************************");
         }
-        System.out.println("Iniciando Algoritimo de Floyd");
-        this.floyd(matrixGg);
-        System.out.println("Fim do Algoritimo de Floyd");
+        System.out.println("Iniciando Algoritimo de Prim");
+        this.primMST(matrixGg);
+        System.out.println("Fim do Algoritimo de Prim");
         return matrixGg;
-    }
-    /**
-     * Era pra ver a leitura do grafo. (NÂO UTILIZADA)
-     */
-    public void buscaEmLargura(){
-        ArrayList<Vertex> marcados = new ArrayList<>();
-        ArrayList<Vertex> fila = new ArrayList<>();
-        Vertex atual = this.verteces.get(0);
-        marcados.add(atual);
-        System.out.println(atual.getPoint().x + "," + atual.getPoint().y);
-        fila.add(atual);
-        while(!fila.isEmpty()){
-            Vertex visitado = fila.get(0);
-            for(int i=0; i < visitado.getExitEdges().size(); i++){
-                Vertex proximo = visitado.getExitEdges().get(i).getEnd();
-                if (!marcados.contains(proximo)){ //se o vértice ainda não foi marcado
-                    marcados.add(proximo);
-                    System.out.println(proximo.getPoint().x + "," + proximo.getPoint().y);
-                    fila.add(proximo);
-                }
-            }
-            fila.remove(0);
-        }
-    }
-    ////////////////////// FLOYD /////////////////////////////////
-    /**
-     * Algoritimo para obter o menor caminho em um grafo
-     * @param graph 
-     */
-    public void floyd(Double graph[][])
-    {
-        int V = graph.length;
-        Double dist[][] = new Double[V][V]; // Matriz de solução
-        int r [][] = new int[V][V];
-        int i, j, k;
-        for (i = 0; i < V; i++){
-            for (j = 0; j < V; j++){
-                dist[i][j] = graph[i][j];
-                    if(dist[i][j]==INF){
-                        r[i][j]= 0;
-                    }else{
-                        r[i][j] = j+1;                   
-                    }
-            }
-        }
-        for (k = 0; k < V; k++) {
-            for (i = 0; i < V; i++) {
-                for (j = 0; j < V; j++) {
-                    if(i==j){
-                        continue;
-                    }
-                    if (dist[i][k] + dist[k][j]< dist[i][j]){
-                        dist[i][j] = dist[i][k] + dist[k][j];
-                        r[i][j] = r[i][k];
-                    }
-                }
-            }
-        }
-        this.floydResult = new MatrixFloyd(r,dist); // Objeto que vai guardar as informações gerada pelo algoritimo
-    }
-    /**
-     * Utilizando para interface
-     * Na view chamar sempre apos a sumFroydD() pois somente apos o somatorios podemos obter os minimos
-     * posso por uma chmada direto ja dentro do função de somatorio la no MatrixFoyd mas deixei assim mesmo
-     * @return O melhor vertece central
-     */
-    public int minimofloyd(){
-        return this.floydResult.getBestCentralVertex();
-    }
-    /**
-     * Utilizando para interface 
-     * @return O vetor dos somatorios de cada linha da Matriz D
-     */
-    public String sumFroydD(){
-        return this.floydResult.getSumD();
-    }
-    /////////////////// FIM do FLOYD ///////////////////////////
-    
-    /**
-     * Esse metodos vai mostrar os resultados para todas as combinações possiveis de caminhos
-     * Ex: Caminho de ([para todos]:n ate [para todos]:m)---> |n|,|m| = Verteces().size()
-     * vale notar que ele ira verificar o maminho de n ate m e tbm de m ate n 
-     * Ex: Caminho de (1 ate 2) e apos (não sequencialmente) o Caminho de (2 ate 1)
-     */
-    
-    public String printedFroydR(){
-        int [][]m =  this.floydResult.getR();
-        String a= "";
-        for (int i = 0; i < m.length; i++) {
-            for (int j = 0; j < m.length; j++) {
-                //System.out.print(m[i][j]+" ");
-                if(m[i][j]==999999999){
-                    //a=a+"INF"+" ";
-                    System.out.print("INF"+" ");
-                }else{
-                  //a=a+m[i][j]+" "; 
-                    System.out.print(m[i][j]+" ");
-                }
-            }
-            //a= a+"\n";
-            System.out.println(" ");
-        }
-        return a;
     }
 
     public ArrayList<Polygon> getPolygons() {
@@ -321,5 +237,97 @@ public class Graph {
     public void setPolygons(ArrayList<Polygon> polygons) {
         this.polygons = polygons;
     }
+    
+    //////////////////////Prim////////////////
+    
+  public int minKey(Double key[], Boolean mstSet[])
+    {
+        // Initialize min value
+        Double min = Math.abs(Double.MAX_VALUE);
+        int min_index = -1;
+ 
+        for (int v = 0; v < this.verteces.size(); v++)
+            if (mstSet[v] == false && key[v] < min) {
+                min = key[v];
+                min_index = v;
+            }
+ 
+        return min_index;
+    }
+ 
+    // A utility function to print the constructed MST
+    // stored in parent[]
+    public void printMST(int parent[], Double graph[][])
+    {
+        System.out.println("Edge \tWeight");
+        for (int i = 1; i < this.verteces.size(); i++){
+            System.out.println(parent[i] + " - " + i + "\t"+ graph[i][parent[i]]);
+            Vertex v = new Vertex(this.getVertex(parent[i]).getPoint(), parent[i]);
+            Vertex v1 = new Vertex(this.getVertex(i).getPoint(), i);
+            this.minTree.addVertex(v);
+            this.minTree.addVertex(v1);
+            this.minTree.addEdge(graph[i][parent[i]], v.getOrdem(), v1.getOrdem());
+            this.minTree.addEdge(graph[i][parent[i]], v1.getOrdem(), v.getOrdem());
+        }
+        //System.out.println(this.minTree.getVertex(0).getExitEdges().size());
+    }
+ 
+    // Function to construct and print MST for a graph
+    // represented using adjacency matrix representation
+    public void primMST(Double graph[][])
+    {
+        // Array to store constructed MST
+        int parent[] = new int[this.verteces.size()];
+ 
+        // Key values used to pick minimum weight edge in
+        // cut
+        Double key[] = new Double[this.verteces.size()];
+ 
+        // To represent set of vertices included in MST
+        Boolean mstSet[] = new Boolean[this.verteces.size()];
+ 
+        // Initialize all keys as INFINITE
+        for (int i = 0; i < this.verteces.size(); i++) {
+            key[i] = Double.MAX_VALUE;
+            mstSet[i] = false;
+        }
+ 
+        // Always include first 1st vertex in MST.
+        key[0] = 0.0; // Make key 0 so that this vertex is
+        // picked as first vertex
+        parent[0] = -1; // First node is always root of MST
+ 
+        // The MST will have V vertices
+        for (int count = 0; count < this.verteces.size() - 1; count++) {
+            // Pick thd minimum key vertex from the set of
+            // vertices not yet included in MST
+            int u = minKey(key, mstSet);
+ 
+            // Add the picked vertex to the MST Set
+            mstSet[u] = true;
+ 
+            // Update key value and parent index of the
+            // adjacent vertices of the picked vertex.
+            // Consider only those vertices which are not
+            // yet included in MST
+            for (int v = 0; v < this.verteces.size(); v++)
+ 
+                // graph[u][v] is non zero only for adjacent
+                // vertices of m mstSet[v] is false for
+                // vertices not yet included in MST Update
+                // the key only if graph[u][v] is smaller
+                // than key[v]
+                if (graph[u][v] != 0 && mstSet[v] == false
+                    && graph[u][v] < key[v]) {
+                    parent[v] = u;
+                    key[v] = graph[u][v];
+                }
+        }
+ 
+        // print the constructed MST
+        this.printMST(parent, graph);
+    }
+    
+    ////////////////////Fim Prim//////////////
     
 }
