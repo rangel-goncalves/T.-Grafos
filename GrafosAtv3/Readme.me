@@ -1,1 +1,18 @@
-<a href="https://github.com/rangel-goncalves/T.-Grafos/edit/main/README.md">Exemplo</a>
+#Atividae 3
+##Função de leitura de Arquivo txt:
+```java
+public void readFromTxtUnoriented(){
+        ArrayList<Point> reader  = new ReadDoc().FileUrl1();
+        this.start = reader.remove(0);
+        Vertex v = new Vertex(this.start, this.verteces.size());
+        this.addVertex(v);
+        this.end = reader.remove(0);
+        Point init = reader.remove(0);
+        int n = init.x.intValue();
+        int k = reader.remove(0).x.intValue();
+        
+        for (int i = 0; i < n; i++) {
+            Polygon lixo =  new Polygon();
+            this.polygons.add(lixo);
+        }
+```
