@@ -1,7 +1,6 @@
 package grafosatv3;
 
 import java.util.ArrayList;
-
 /**
  *
  * @author Rangel
@@ -67,7 +66,11 @@ public class Vertex {
     public Boolean getVisited() {
         return visited;
     }
-
+    
+    public void resetVisited() {
+        this.visited = false;
+    }
+    
     public void setVisited(Boolean visited) {
         this.visited = visited;
     }
@@ -102,6 +105,16 @@ public class Vertex {
             }
         }
         return cost;
+    }
+
+    @Override
+    public String toString() {
+        String a= "[";
+        for (Edge adj : this.exitEdges) {
+            a+= adj.getEnd().getOrdem()+",";
+        }
+        a = a.substring(0, a.length()-1)+ "]";
+        return a;
     }
     
 }

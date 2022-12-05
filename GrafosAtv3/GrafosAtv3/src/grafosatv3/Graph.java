@@ -3,7 +3,6 @@ package grafosatv3;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
-
 /**
  * @author Rangel
  * @param 
@@ -41,6 +40,7 @@ public class Graph {
             Edge edge = new Edge(cost,startData,endData);
             endData.addInputEdges(edge);
             startData.addExitEdges(edge);
+            
             edges.add(edge);
         }
     }
@@ -93,7 +93,7 @@ public class Graph {
                         p = reader.remove(0);
                     }else{
                         break;
-                        }
+                    }
 
                     v = new Vertex(p, this.verteces.size());
                     this.addVertex(v);
@@ -105,7 +105,7 @@ public class Graph {
                     k = reader.remove(0).x.intValue();
                 }else{
                         break;
-                    }
+                }
             }
         }
         v = new Vertex(this.end, this.verteces.size());
@@ -157,6 +157,10 @@ public class Graph {
                         Point p = new Point(X,Y);
                         // testa se o algum dos pontos pertencentes a reta passa por dentro de algum dos poligonos
                         for (int j = 0; j < this.polygons.size()-1; j++) {
+                            System.out.println(j);
+                            if(j==2){
+                                this.polygons.get(j).getPoints().toString();
+                            }
                             if(Position_Point_WRT_Polygon.isInside(this.polygons.get(j).getPoints(),
                                     this.polygons.get(j).getPoints().length,
                                     p)){
@@ -175,6 +179,7 @@ public class Graph {
                 }
             }
         }
+        ///////// this.transforIntoMatrix(); faz parte da iniciação para rodar o algoritimo de Prim
         this.transforIntoMatrix();
         // criação das arestas para o Algoritimo de Kruskal
         kruskalEdge = new kruskalEdge[this.edges.size()];
@@ -219,13 +224,20 @@ public class Graph {
         return a;
     }
     /**
-     * transformando o grafo em uma matriz de adjacencia para facilitar a implementação dos algoritimos de caminho minimo
+     * transformando o grafo em uma matriz de adjacencia para facilitar a implementação do Algoritimo de Prim
      * @return 
      */
+    
+    public void printGraph(){
+        
+        for (Vertex v : this.verteces) {
+            System.out.println("Vertece: "+v.getOrdem()+v.toString());
+        }
+    }
+    
     public Double[][] transforIntoMatrix(){
         
         this.matrixG = new Double [this.verteces.size()+1][this.verteces.size()+1];
-        
         for (Vertex vertece : verteces) {
             for (int i = 0; i < this.verteces.size()+1; i++) {
                 int aux = vertece.getOrdem();
@@ -249,9 +261,11 @@ public class Graph {
                 }
             }
         }
+        this.printGraph();
         System.out.println("\t"+"Iniciando Algoritimo de Prim");
         this.primMST(matrixGg);
         System.out.println("\t"+"Fim do Algoritimo de Prim");
+        
         return matrixGg;
     }
 
@@ -281,7 +295,8 @@ public class Graph {
     }
  
     /**
-     * Função Auxiliar(ALgoritimo de Prim). Printa a Arvore mínima
+     * Função Auxiliar(ALgoritimo de Prim). Printa a Arvore mínima ao mesmo tempo que a salva na classe MinTreePrim.
+     * 
      * @param parent
      * @param graph 
      */
@@ -301,6 +316,7 @@ public class Graph {
         }
         System.out.println("Minimum Cost Spanning Tree "
                            + minimumCost);
+        this.minTreePrim.setPolygons(this.polygons);
     }
     
     /**
@@ -387,8 +403,6 @@ public class Graph {
      * @param e 
      */
     public void PrintKruskalMST(kruskalEdge result[],int i, int e){
-        System.out.println("Following are the edges in "
-                           + "the constructed MST");
         Double minimumCost = 0.0;
         System.out.println("Edge \tWeight");
         for (i = 0; i < e; ++i) {

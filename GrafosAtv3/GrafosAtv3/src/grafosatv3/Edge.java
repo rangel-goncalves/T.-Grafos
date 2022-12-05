@@ -57,5 +57,12 @@ public class Edge implements Comparable<Edge> {
     public int compareTo(Edge compareEdge) {
         return this.cost.compareTo(compareEdge.getCost());
     }
+
+    @Override
+    public String toString() {
+        return "Edge{" + "cost=" + cost + ", start=" + start.getOrdem() + ", end=" + end.getOrdem() + '}';
+    }
+    
+    
     
 }

@@ -18,13 +18,21 @@ public class GrafosAtv3 {
     public static void main(String[] args) {
 
         Graph g = new Graph();
-        
         g.readFromTxtUnoriented();
-
         g.createEdges();
-        //System.out.println("Busca\n\n");
-        //g.getMinTreePrim().dfs(0);
-
+        //g.listEdges();
+        ////////////////////Testes////////////////////////////
+        
+        //essa parte calcula o caminho pedido na atividade do ponto (1,10) ate o (10,1)
+        g.getMinTreePrim().computarCaminho(0, 14);
+        
+        // pNew recebe a nova coordenada onde o robo ta
+        Point pNew = new Point(0.0, 0.0);
+        g.getMinTreePrim().addNewStart(pNew,14);
+        // Para adicionar um novo ponto e recalcular o caminho ate um novo destino é so repetir so 2 ultimos comandos
+        
+        /////////////////////////////////////////////////////
+        
     }
     
 }
