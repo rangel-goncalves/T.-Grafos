@@ -157,10 +157,6 @@ public class Graph {
                         Point p = new Point(X,Y);
                         // testa se o algum dos pontos pertencentes a reta passa por dentro de algum dos poligonos
                         for (int j = 0; j < this.polygons.size()-1; j++) {
-                            System.out.println(j);
-                            if(j==2){
-                                this.polygons.get(j).getPoints().toString();
-                            }
                             if(Position_Point_WRT_Polygon.isInside(this.polygons.get(j).getPoints(),
                                     this.polygons.get(j).getPoints().length,
                                     p)){
@@ -261,7 +257,7 @@ public class Graph {
                 }
             }
         }
-        this.printGraph();
+        //this.printGraph();
         System.out.println("\t"+"Iniciando Algoritimo de Prim");
         this.primMST(matrixGg);
         System.out.println("\t"+"Fim do Algoritimo de Prim");

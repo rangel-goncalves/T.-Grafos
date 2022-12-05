@@ -20,7 +20,6 @@ public class GrafosAtv3 {
         Graph g = new Graph();
         g.readFromTxtUnoriented();
         g.createEdges();
-        //g.listEdges();
         ////////////////////Testes////////////////////////////
         
         //essa parte calcula o caminho pedido na atividade do ponto (1,10) ate o (10,1)
