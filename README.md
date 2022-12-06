@@ -426,6 +426,9 @@ public void createEdges(){
             }
         }
 ```
+Computação de Caminhos    |
+:-------------------------:
+![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/prim.jpg)
 
 ## Funções para montar as arvores mínimas:
 
