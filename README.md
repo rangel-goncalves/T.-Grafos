@@ -3,6 +3,7 @@
 <!--ts-->
    * [Atividade 1](#Atividade-1---Algoritimos-de-caminho-mínimo)
    * [Atividade 2](#Atividade-2---Algoritimos-de-caminho-mínimo)
+   * [Atividade 3](#Atividade-2---Algoritimos-de-Arvore-Mínima)
 <!--te-->
 # Atividade 1 - Algoritimos de caminho mínimo
 # Cenário 1
@@ -317,7 +318,7 @@ public void floyd(Double graph[][])
 :-------------------------:|:-------------------------:|
 ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv2/src/images/TelaBusca.jpg)  |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv2/src/images/TelaOutput.jpg) 
 
-#Atividae 3
+# Atividade 3 - Algoritimos de Arvore Mínima
 ##Função de leitura de Arquivo txt:
 
  ```java
@@ -337,7 +338,7 @@ public void readFromTxtUnoriented(){
         }
 ```
 ## Funções para montar as arvores mínimas:
-        ###Prim
+### Prim
 ```java
 public void primMST(Double graph[][]){
         
@@ -372,7 +373,7 @@ public void primMST(Double graph[][]){
         this.printMST(parent, graph);
     }
 ```
-        ###Kruskal
+### Kruskal
 ```java
 public void KruskalMST()
     {
@@ -414,7 +415,7 @@ public void KruskalMST()
     }
 ```
 ## Adicionar Determinados pontos em outras posições e determinar o ponto mais próximo a ele:
-###O novo ponto pode ser definido na Classe principal GrafosAtv3(https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/grafosatv3/GrafosAtv3.java)
+### O novo ponto pode ser definido na Classe principal [GrafosAtv3](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/grafosatv3/GrafosAtv3.java)
 ```java
 public void addNewStart(Point pNew, int newGoal) {
         ArrayList<Edge> newEdges = new ArrayList<>();
