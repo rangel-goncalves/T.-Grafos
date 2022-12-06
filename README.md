@@ -3,7 +3,7 @@
 <!--ts-->
    * [Atividade 1](#Atividade-1---Algoritimos-de-caminho-mínimo)
    * [Atividade 2](#Atividade-2---Algoritimos-de-caminho-mínimo)
-   * [Atividade 3](#Atividade-2---Algoritimos-de-Arvore-Mínima)
+   * [Atividade 3](#Atividade-3---Algoritimos-de-Árvore-Mínima)
 <!--te-->
 # Atividade 1 - Algoritimos de caminho mínimo
 # Cenário 1
@@ -318,7 +318,7 @@ public void floyd(Double graph[][])
 :-------------------------:|:-------------------------:|
 ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv2/src/images/TelaBusca.jpg)  |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv2/src/images/TelaOutput.jpg) 
 
-# Atividade 3 - Algoritimos de Arvore Mínima
+# Atividade 3 - Algoritimos de Árvore Mínima
 ##Função de leitura de Arquivo txt:
 
  ```java
