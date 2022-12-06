@@ -7,7 +7,8 @@ package grafosatv3;
 
 
 /**
- * falta muito, ainda falta muito mas falta menos
+ * referências:
+ * https://docs.ufpr.br/~volmir/PO_II_11_arvore_geradora_minima.pdf
  * @author Rangel
  */
 public class GrafosAtv3 {

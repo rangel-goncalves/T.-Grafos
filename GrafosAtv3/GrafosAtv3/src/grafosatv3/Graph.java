@@ -116,7 +116,7 @@ public class Graph {
      * Função utilizada para a acriação das arestas.
      * Cria uma equação para cada dupla de pontos verificados e verifica se estes pontos podem ser ligados
      */
-    public void createEdges(){
+   public void createEdges(){
         for (Vertex vertece : this.verteces) {
             Double Y = 0.0;
             for (Vertex vertece1 : this.verteces) {
@@ -139,7 +139,7 @@ public class Graph {
                         Y = (m * (X - vertece.getPoint().x)) + vertece.getPoint().y;
                         Point p = new Point(X,Y);
                         // testa se o algum dos pontos pertencentes a reta passa por dentro de algum dos poligonos
-                        for (int j = 0; j < this.polygons.size()-1; j++) {
+                        for (int j = 0; j < this.polygons.size(); j++) {
                             if(Position_Point_WRT_Polygon.isInside(this.polygons.get(j).getPoints(),
                                     this.polygons.get(j).getPoints().length,
                                     p)){
@@ -156,7 +156,7 @@ public class Graph {
                         Y = (m * (X - vertece.getPoint().x)) + vertece.getPoint().y;
                         Point p = new Point(X,Y);
                         // testa se o algum dos pontos pertencentes a reta passa por dentro de algum dos poligonos
-                        for (int j = 0; j < this.polygons.size()-1; j++) {
+                        for (int j = 0; j < this.polygons.size(); j++) {
                             if(Position_Point_WRT_Polygon.isInside(this.polygons.get(j).getPoints(),
                                     this.polygons.get(j).getPoints().length,
                                     p)){
@@ -173,6 +173,31 @@ public class Graph {
                     
                     this.addEdge(cost, vertece, vertece1);
                 }
+            }
+        }
+        /**
+         * esse laço de repetição serve para adicionar as arestas dos poligonos no grafo
+         */
+        for (int i = 0; i < this.polygons.size(); i++) {
+            int n = this.polygons.get(i).getPoints().length;
+            for (int j = 0; j < n; j++) {
+                if(j==this.polygons.get(i).getPoints().length-1){
+                    
+                    Double cost = Math.sqrt(Math.pow((this.polygons.get(i).getPoints()[j].x-this.polygons.get(i).getPoints()[0].x), 2)
+                                 +Math.pow((this.polygons.get(i).getPoints()[j].y-this.polygons.get(i).getPoints()[0].y), 2));
+                    
+                    Double[] v = {this.polygons.get(i).getPoints()[j].x,this.polygons.get(i).getPoints()[j].y};
+                    Double[] v1 = {this.polygons.get(i).getPoints()[0].x,this.polygons.get(i).getPoints()[0].y};
+                    this.addEdge(cost, this.getVertex(v), this.getVertex(v1));
+                    this.addEdge(cost, this.getVertex(v1), this.getVertex(v));
+                    break;
+                }
+                Double cost = Math.sqrt(Math.pow((this.polygons.get(i).getPoints()[j].x-this.polygons.get(i).getPoints()[j+1].x), 2)
+                                 +Math.pow((this.polygons.get(i).getPoints()[j].y-this.polygons.get(i).getPoints()[j+1].y), 2));
+                Double[] v = {this.polygons.get(i).getPoints()[j].x,this.polygons.get(i).getPoints()[j].y};
+                Double[] v1 = {this.polygons.get(i).getPoints()[j+1].x,this.polygons.get(i).getPoints()[j+1].y};
+                this.addEdge(cost, this.getVertex(v), this.getVertex(v1));
+                this.addEdge(cost, this.getVertex(v1), this.getVertex(v));
             }
         }
         ///////// this.transforIntoMatrix(); faz parte da iniciação para rodar o algoritimo de Prim
@@ -220,10 +245,8 @@ public class Graph {
         return a;
     }
     /**
-     * transformando o grafo em uma matriz de adjacencia para facilitar a implementação do Algoritimo de Prim
-     * @return 
+     * transformando o grafo em uma matriz de adjacencia para facilitar a implementação do Algoritimo de Prim 
      */
-    
     public void printGraph(){
         
         for (Vertex v : this.verteces) {
@@ -246,18 +269,18 @@ public class Graph {
         Double [][] matrixGg = new Double [this.verteces.size()+1][this.verteces.size()+1];
         for (int i = 0; i < this.verteces.size(); i++) {
             for (int j = 0; j < this.verteces.size(); j++) {
-                if(this.matrixG[i][j] == 0 /*&& this.matrixG[j][i] == 0*/){
+                if(this.matrixG[i][j] == 0 && this.matrixG[j][i] == 0){
                     if(i==j){
                         matrixGg [i][j] = 0.00;
                     }else{
                         matrixGg [i][j] = INF;
                     }
                 }else{
-                    matrixGg [i][j]=this.matrixG[i][j] /*== 0 ? this.matrixG[j][i]: this.matrixG[i][j]*/ ;
+                    matrixGg [i][j]=this.matrixG[i][j] == 0 ? this.matrixG[j][i]: this.matrixG[i][j] ;
                 }
             }
         }
-        //this.printGraph();
+        this.printGraph();
         System.out.println("\t"+"Iniciando Algoritimo de Prim");
         this.primMST(matrixGg);
         System.out.println("\t"+"Fim do Algoritimo de Prim");
@@ -317,6 +340,7 @@ public class Graph {
     
     /**
      * Algoritimo de Prim para geração de arvore mínima
+     * @param graph
      */
     public void primMST(Double graph[][]){
         

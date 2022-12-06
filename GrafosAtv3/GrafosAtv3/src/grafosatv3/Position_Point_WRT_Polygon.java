@@ -11,10 +11,8 @@ public class Position_Point_WRT_Polygon
  
     public static boolean onSegment(Point p, Point q, Point r)
     {
-        if (q.x < Math.max(p.x, r.x) && q.x > Math.min(p.x, r.x)
-                && q.y < Math.max(p.y, r.y) && q.y > Math.min(p.y, r.y))
-            return true;
-        return false;
+        return q.x < Math.max(p.x, r.x) && q.x > Math.min(p.x, r.x)
+                && q.y < Math.max(p.y, r.y) && q.y > Math.min(p.y, r.y);
     }
  
     public static int orientation(Point p, Point q, Point r)
@@ -73,7 +71,7 @@ public class Position_Point_WRT_Polygon
             i = next;
         } while (i != 0);
  
-        return (count & 1) == 1 ? true : false;
+        return (count & 1) == 1;
     }
     public static boolean isInside(ArrayList<Point> polygon, int n, Point p)
     {
@@ -97,6 +95,6 @@ public class Position_Point_WRT_Polygon
             i = next;
         } while (i != 0);
  
-        return (count & 1) == 1 ? true : false;
+        return (count & 1) == 1;
     }
 }

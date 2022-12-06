@@ -35,37 +35,34 @@ public class ReadDoc {
 	if (returnValue == JFileChooser.APPROVE_OPTION) {
             File selectedFile = jfc.getSelectedFile();
             try {
-                FileReader reader = new FileReader(selectedFile);
-                BufferedReader buffer = new BufferedReader(reader);
-                String line ="";
-                line = buffer.readLine(); 
-                String aux = "";
-                while(line!=null){
-                    line = line.replaceAll("," , "");
-                    if(line.length()<4){
-                        line += " 99999.99";
-                        
-                    }
-                    //System.out.println(line);
-                    Pattern p = Pattern.compile("\\d+.\\d+");
-                    Matcher m = p.matcher(line);
-                    while(m.find()) {
-                        aux += m.group()+" ";
-                    }
+                try (FileReader reader = new FileReader(selectedFile)) {
+                    BufferedReader buffer = new BufferedReader(reader);
+                    String line ="";
                     line = buffer.readLine();
-                }
-                //System.out.println(aux);
-                StringTokenizer st = new StringTokenizer(aux, " ");
-                
-                while (st.hasMoreTokens()) {
+                    String aux = "";
+                    while(line!=null){
+                        line = line.replaceAll("," , "");
+                        if(line.length()<4){
+                            line += " 99999.99";
+                            
+                        }
+                        //System.out.println(line);
+                        Pattern p = Pattern.compile("\\d+.\\d+");
+                        Matcher m = p.matcher(line);
+                        while(m.find()) {
+                            aux += m.group()+" ";
+                        }
+                        line = buffer.readLine();
+                    }
+                    StringTokenizer st = new StringTokenizer(aux, " ");
+                    
+                    while (st.hasMoreTokens()) {
                         String x = st.nextToken();
                         String y = st.nextToken();
-                        //System.out.println(x+","+y);
-                        Point ans = new Point(Double.valueOf(x),Double.valueOf(y));
+                        Point ans = new Point(Double.parseDouble(x),Double.parseDouble(y));
                         result.add(ans);
                     }
-                
-                reader.close();
+                }
                 return result;
                 
             } catch (IOException ex) {
