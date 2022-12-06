@@ -426,9 +426,9 @@ public void createEdges(){
             }
         }
 ```
-Computação de Caminhos    |
+Grafo de Visibilidade    |
 :-------------------------:
-![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/prim.jpg)
+![]([https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/prim.jpg](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/Grafico%20de%20Vizibilidade.jpg))
 
 ## Funções para montar as arvores mínimas:
 
