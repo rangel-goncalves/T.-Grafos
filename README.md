@@ -319,7 +319,8 @@ public void floyd(Double graph[][])
 ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv2/src/images/TelaBusca.jpg)  |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv2/src/images/TelaOutput.jpg) 
 
 # Atividade 3 - Algoritimos de Árvore Mínima
-##Função de leitura de Arquivo txt:
+### OS VÉRTICES NESSA ATIVIDADE FORAM NOMEADOS POR SUA ORTEM DE  LEITURA EX: qstart(1,10) = vertice 0, OS DEMAIS FORAM SENDO NOMEADOS POR ORDEM DE LEITURA SEND QUE O qgoal SEMPRE SERA O ÚLTIMO VÉRTICE ATE QUE SEJA ADICIONADO OUTRO(OS) VÉRTICES EM QUE O ROBO NÃO ESTÁ INICIALMENTE.
+## Função de leitura de Arquivo txt: 
 
  ```java
 public void readFromTxtUnoriented(){
