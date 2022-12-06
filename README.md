@@ -414,6 +414,7 @@ public void KruskalMST()
     }
 ```
 ## Adicionar Determinados pontos em outras posições e determinar o ponto mais próximo a ele:
+###O novo ponto pode ser definido na Classe principal GrafosAtv3(https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/grafosatv3/GrafosAtv3.java)
 ```java
 public void addNewStart(Point pNew, int newGoal) {
         ArrayList<Edge> newEdges = new ArrayList<>();
