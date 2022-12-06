@@ -492,7 +492,7 @@ public void addNewStart(Point pNew, int newGoal) {
 ```
 ## Telas
   
-  Tela de Prim             |  Tela de Kruskal          | Arvore Mínima             
+  Tela de Prim             |  Tela de Kruskal e resultado da computação co caminho qSatrt->qgoal e resultado do caminho de um novo ponto qualquer ate o qgoal         | Arvore Mínima             
 :-------------------------:|:-------------------------:|:-------------------------:
 ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/atv1t1.jpg)  |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/atv1t2.jpg) |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/atv3Tree.jpg) 
 
