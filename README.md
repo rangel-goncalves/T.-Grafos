@@ -584,6 +584,43 @@ public void addNewStart(Point pNew, int newGoal) {
     }
 ```
 ## [Funções Para computar caminho](https://github.com/rangel-goncalves/T.-Grafos/blob/6fe95e3a845b0a07c8f3158ed29202d315bb7455/GrafosAtv3/GrafosAtv3/src/grafosatv3/MinTreePrim.java#L222)
+```java
+public void computarCaminho(int source, int dest) {
+        this.path.clear();
+        this.verteces.forEach(Vertex::resetVisited);
+        System.out.println("Computado caminho de "+source+" ate "+dest);
+        //this.getVertex(source).getAdjList().forEach(System.out::println);
+        if (this.dfs(source, dest)) {
+            this.path.add(source);
+            for (int i = this.path.size() - 1; i > 0; i--) {
+                System.out.print(this.path.get(i) + "->");
+            }
+            System.out.println(dest);
+        } else {
+            System.out.println("Não existe caminho");
+        }
+
+    }
+
+    public Boolean dfs(int source, int dest) {
+        this.getVertex(source).setVisited(true);
+        //System.out.println(source);
+        for (Vertex vertex : this.getVertex(source).getAdjList()) {
+            if (!vertex.getVisited()) {
+                //dfs(vertex.getOrdem(),dest);
+                if (vertex.getOrdem() == dest) {
+                    //System.out.println(vertex.getOrdem());
+                    this.path.add(vertex.getOrdem());
+                    return true;
+                }
+                if (dfs(vertex.getOrdem(), dest)) {
+                    //System.out.println(vertex.getOrdem());
+                    this.path.add(vertex.getOrdem());
+                    return true;
+                }
+            }
+        }
+```
 ## Telas
   
   Tela de Prim             |  Tela de Kruskal          | Arvore Mínima             | Computação de Caminhos   
