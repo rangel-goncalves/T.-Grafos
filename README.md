@@ -278,7 +278,7 @@ public void floyd(Double graph[][])
         this.floydResult = new MatrixFloyd(r,dist); // Objeto que vai guardar as informações gerada pelo algoritimo
     }
 ```
-## Função Que Verifica a Existência de Caminho
+## [Função Que Verifica a Existência de Caminho]
 
 ```java
     /** 
@@ -339,8 +339,96 @@ public void readFromTxtUnoriented(){
             this.polygons.add(lixo);
         }
 ```
+## [Função Gravo de vizibilidade](https://github.com/rangel-goncalves/T.-Grafos/blob/6fe95e3a845b0a07c8f3158ed29202d315bb7455/GrafosAtv3/GrafosAtv3/src/grafosatv3/Graph.java#L119)
+```java
+public void createEdges(){
+        for (Vertex vertece : this.verteces) {
+            Double Y = 0.0;
+            for (Vertex vertece1 : this.verteces) {
+                Double m = 0.0;
+                Boolean dentro = false;
+                if(Objects.equals(vertece.getPoint().x, vertece1.getPoint().x)){
+                    continue;
+                }
+                
+                // m = coeficiente angular da reta
+                m = (vertece.getPoint().y - vertece1.getPoint().y)/(vertece.getPoint().x - vertece1.getPoint().x);
+                //verifica se o valor de x do ponto de destino é maior ou menor do que o do ponto de origem 
+                // para limitar o segmento de reta
+                if(vertece1.getPoint().x<=vertece.getPoint().x){
+                    // se for menor o valor de X decresse ate atingir o valor de x
+                    for (Double X = vertece.getPoint().x;
+                        X > vertece1.getPoint().x 
+                        ; X -= 0.01) {
+                        // equação da reta
+                        Y = (m * (X - vertece.getPoint().x)) + vertece.getPoint().y;
+                        Point p = new Point(X,Y);
+                        // testa se o algum dos pontos pertencentes a reta passa por dentro de algum dos poligonos
+                        for (int j = 0; j < this.polygons.size(); j++) {
+                            if(Position_Point_WRT_Polygon.isInside(this.polygons.get(j).getPoints(),
+                                    this.polygons.get(j).getPoints().length,
+                                    p)){
+                                dentro = true;
+                            }
+                        }
+                    }
+                }else{
+                    // se for maior o valor de X acresse ate atingir o valor de x
+                    for (Double X = vertece.getPoint().x;
+                        X < vertece1.getPoint().x
+                        ; X += 0.01) {
+                        // equação da reta
+                        Y = (m * (X - vertece.getPoint().x)) + vertece.getPoint().y;
+                        Point p = new Point(X,Y);
+                        // testa se o algum dos pontos pertencentes a reta passa por dentro de algum dos poligonos
+                        for (int j = 0; j < this.polygons.size(); j++) {
+                            if(Position_Point_WRT_Polygon.isInside(this.polygons.get(j).getPoints(),
+                                    this.polygons.get(j).getPoints().length,
+                                    p)){
+                                dentro = true;
+                            }
+                        }
+                    }
+                }
+                // caso nenhum ponto esteja dentro de algum poligono a aresta é criada
+                if(!dentro){
+                    // calculo do custo da aresta (módulo do vetor entre os dois pontos)
+                    Double cost = Math.sqrt(Math.pow((vertece.getPoint().x-vertece1.getPoint().x), 2)
+                                 +Math.pow((vertece.getPoint().y-vertece1.getPoint().y), 2));
+                    
+                    this.addEdge(cost, vertece, vertece1);
+                }
+            }
+        }
+        /**
+         * esse laço de repetição serve para adicionar as arestas dos poligonos no grafo
+         */
+        for (int i = 0; i < this.polygons.size(); i++) {
+            int n = this.polygons.get(i).getPoints().length;
+            for (int j = 0; j < n; j++) {
+                if(j==this.polygons.get(i).getPoints().length-1){
+                    
+                    Double cost = Math.sqrt(Math.pow((this.polygons.get(i).getPoints()[j].x-this.polygons.get(i).getPoints()[0].x), 2)
+                                 +Math.pow((this.polygons.get(i).getPoints()[j].y-this.polygons.get(i).getPoints()[0].y), 2));
+                    
+                    Double[] v = {this.polygons.get(i).getPoints()[j].x,this.polygons.get(i).getPoints()[j].y};
+                    Double[] v1 = {this.polygons.get(i).getPoints()[0].x,this.polygons.get(i).getPoints()[0].y};
+                    this.addEdge(cost, this.getVertex(v), this.getVertex(v1));
+                    this.addEdge(cost, this.getVertex(v1), this.getVertex(v));
+                    break;
+                }
+                Double cost = Math.sqrt(Math.pow((this.polygons.get(i).getPoints()[j].x-this.polygons.get(i).getPoints()[j+1].x), 2)
+                                 +Math.pow((this.polygons.get(i).getPoints()[j].y-this.polygons.get(i).getPoints()[j+1].y), 2));
+                Double[] v = {this.polygons.get(i).getPoints()[j].x,this.polygons.get(i).getPoints()[j].y};
+                Double[] v1 = {this.polygons.get(i).getPoints()[j+1].x,this.polygons.get(i).getPoints()[j+1].y};
+                this.addEdge(cost, this.getVertex(v), this.getVertex(v1));
+                this.addEdge(cost, this.getVertex(v1), this.getVertex(v));
+            }
+        }
+```
+
 ## Funções para montar as arvores mínimas:
-### Prim
+### [Prim](https://github.com/rangel-goncalves/T.-Grafos/blob/6fe95e3a845b0a07c8f3158ed29202d315bb7455/GrafosAtv3/GrafosAtv3/src/grafosatv3/Graph.java#L345)
 ```java
 public void primMST(Double graph[][]){
         
@@ -375,7 +463,7 @@ public void primMST(Double graph[][]){
         this.printMST(parent, graph);
     }
 ```
-### Kruskal
+### [Kruskal](https://github.com/rangel-goncalves/T.-Grafos/blob/6fe95e3a845b0a07c8f3158ed29202d315bb7455/GrafosAtv3/GrafosAtv3/src/grafosatv3/Graph.java#L441)
 ```java
 public void KruskalMST()
     {
@@ -416,7 +504,7 @@ public void KruskalMST()
         this.PrintKruskalMST(result, i, e);
     }
 ```
-## Adicionar Determinados pontos em outras posições e determinar o ponto mais próximo a ele:
+## [Adicionar Determinados pontos em outras posições e determinar o ponto mais próximo a ele:](https://github.com/rangel-goncalves/T.-Grafos/blob/6fe95e3a845b0a07c8f3158ed29202d315bb7455/GrafosAtv3/GrafosAtv3/src/grafosatv3/MinTreePrim.java#L31)
 ### O novo ponto pode ser definido na Classe principal [GrafosAtv3](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/grafosatv3/GrafosAtv3.java)
 ```java
 public void addNewStart(Point pNew, int newGoal) {
@@ -494,10 +582,12 @@ public void addNewStart(Point pNew, int newGoal) {
         this.computarCaminho(v.getOrdem(), newGoal);
     }
 ```
+## [Funções Para computar caminho](https://github.com/rangel-goncalves/T.-Grafos/blob/6fe95e3a845b0a07c8f3158ed29202d315bb7455/GrafosAtv3/GrafosAtv3/src/grafosatv3/MinTreePrim.java#L222)
 ## Telas
   
-  Tela de Prim             |  Tela de Kruskal e resultado da computação co caminho qSatrt->qgoal e resultado do caminho de um novo ponto qualquer ate o qgoal         | Arvore Mínima             
+  Tela de Prim             |  Tela de Kruskal 
+  | Arvore Mínima          | Computação de Caminhos   
 :-------------------------:|:-------------------------:|:-------------------------:
-![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/atv1t1.jpg)  |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/atv1t2.jpg) |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/atv3Tree.jpg) 
+![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/prim.jpg)  |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/kruskal.jpg) |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/atv3MinTree.jpg)  |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/caminho.jpg) 
 
 
