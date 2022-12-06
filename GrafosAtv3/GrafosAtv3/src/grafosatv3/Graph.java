@@ -250,7 +250,7 @@ public class Graph {
     public void printGraph(){
         
         for (Vertex v : this.verteces) {
-            System.out.println("Vertece: "+v.getOrdem()+v.toString());
+            System.out.println("Vertece "+v.getOrdem()+":"+v.toString());
         }
     }
     
