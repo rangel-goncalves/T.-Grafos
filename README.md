@@ -428,6 +428,7 @@ public void createEdges(){
 ```
 
 ## Funções para montar as arvores mínimas:
+
 ### [Prim](https://github.com/rangel-goncalves/T.-Grafos/blob/6fe95e3a845b0a07c8f3158ed29202d315bb7455/GrafosAtv3/GrafosAtv3/src/grafosatv3/Graph.java#L345)
 ```java
 public void primMST(Double graph[][]){
@@ -585,9 +586,8 @@ public void addNewStart(Point pNew, int newGoal) {
 ## [Funções Para computar caminho](https://github.com/rangel-goncalves/T.-Grafos/blob/6fe95e3a845b0a07c8f3158ed29202d315bb7455/GrafosAtv3/GrafosAtv3/src/grafosatv3/MinTreePrim.java#L222)
 ## Telas
   
-  Tela de Prim             |  Tela de Kruskal 
-  | Arvore Mínima          | Computação de Caminhos   
-:-------------------------:|:-------------------------:|:-------------------------:
+  Tela de Prim             |  Tela de Kruskal          | Arvore Mínima             | Computação de Caminhos   
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
 ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/prim.jpg)  |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/kruskal.jpg) |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/atv3MinTree.jpg)  |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/caminho.jpg) 
 
 
