@@ -1,6 +1,7 @@
 #Atividae 3
 ##Função de leitura de Arquivo txt:
-```java
+
+ ```java
 public void readFromTxtUnoriented(){
         ArrayList<Point> reader  = new ReadDoc().FileUrl1();
         this.start = reader.remove(0);
@@ -16,3 +17,163 @@ public void readFromTxtUnoriented(){
             this.polygons.add(lixo);
         }
 ```
+## Funções para montar as arvores mínimas:
+        ###Prim
+```java
+public void primMST(Double graph[][]){
+        
+        int parent[] = new int[this.verteces.size()];
+
+        Double key[] = new Double[this.verteces.size()];
+
+        Boolean mstSet[] = new Boolean[this.verteces.size()];
+
+        for (int i = 0; i < this.verteces.size(); i++) {
+            key[i] = Double.MAX_VALUE;
+            mstSet[i] = false;
+        }
+
+        key[0] = 0.0;
+        parent[0] = -1;
+ 
+        for (int count = 0; count < this.verteces.size() - 1; count++) {
+            int u = minKey(key, mstSet);
+ 
+            mstSet[u] = true;
+
+            for (int v = 0; v < this.verteces.size(); v++){
+
+                if (graph[u][v] != 0 && mstSet[v] == false
+                    && graph[u][v] < key[v]) {
+                    parent[v] = u;
+                    key[v] = graph[u][v];
+                }
+            }
+        }
+        this.printMST(parent, graph);
+    }
+```
+        ###Kruskal
+```java
+public void KruskalMST()
+    {
+        kruskalEdge result[] = new kruskalEdge[this.verteces.size()];
+ 
+        int e = 0;
+ 
+        int i = 0;
+        for (i = 0; i < this.verteces.size(); ++i){
+            result[i] = new kruskalEdge();
+        }
+
+        Arrays.sort(this.kruskalEdge);
+ 
+        subSet subsets[] = new subSet[this.verteces.size()];
+        for (i = 0; i < this.verteces.size(); ++i)
+            subsets[i] = new subSet();
+ 
+        for (int v = 0; v < this.verteces.size(); ++v) {
+            subsets[v].parent = v;
+            subsets[v].rank = 0;
+        }
+ 
+        i = 0;
+
+        while (e < this.verteces.size() - 1) {
+            
+            kruskalEdge next_edge = this.kruskalEdge[i++];
+ 
+            int x = find(subsets, next_edge.getSrc());
+            int y = find(subsets, next_edge.getDest());
+ 
+            if (x != y) {
+                result[e++] = next_edge;
+                Union(subsets, x, y);
+            }
+        }
+        this.PrintKruskalMST(result, i, e);
+    }
+```
+## Adicionar Determinados pontos em outras posições e determinar o ponto mais próximo a ele:
+```java
+public void addNewStart(Point pNew, int newGoal) {
+        ArrayList<Edge> newEdges = new ArrayList<>();
+        Vertex v = new Vertex(pNew, this.verteces.size());
+        this.verteces.add(v);
+        Double cost =0.0;
+        for (Vertex vertex : verteces) {
+            
+            Double m = 0.0;
+            Boolean dentro = false;
+            
+            if ((pNew.x - vertex.getPoint().x)==0) {
+                continue;
+            }
+
+            m = ( vertex.getPoint().y- pNew.y ) / (vertex.getPoint().x-pNew.x);
+            //verifica se o valor de x do ponto de destino é maior ou menor do que o do ponto de origem 
+            // para limitar o segmento de reta
+            if ( pNew.x >= vertex.getPoint().x ) {
+ 
+                // se for menor o valor de X decresse ate atingir o valor de x
+                for (Double X = pNew.x+0.2;
+                        X > vertex.getPoint().x; X -= 0.1) {
+                    // equação da reta
+                    Double Y = (m * (X - pNew.x)) + pNew.y;
+                    Point p = new Point(X, Y);
+                    // testa se o algum dos pontos pertencentes a reta passa por dentro de algum dos poligonos
+                    for (int j = 0; j < this.polygons.size(); j++) {
+                        if (Position_Point_WRT_Polygon.isInside(this.polygons.get(j).getPoints(),
+                                this.polygons.get(j).getPoints().length,
+                                p)) {
+                            if(vertex.getOrdem() == 0){
+                            System.out.println(X+","+Y);
+                            }
+                            dentro = true;
+                        }
+                    }
+                }
+            } else {
+
+                // se for maior o valor de X acresse ate atingir o valor de x
+                for (Double X = pNew.x+0.2;
+                        X < vertex.getPoint().x; X += 0.1) {
+                    // equação da reta
+                    Double Y = (m * (X - pNew.x)) + pNew.y;
+                    Point p = new Point(X, Y);
+                    // testa se o algum dos pontos pertencentes a reta passa por dentro de algum dos poligonos
+                    for (int j = 0; j < this.polygons.size(); j++) {
+                        if (Position_Point_WRT_Polygon.isInside(this.polygons.get(j).getPoints(),
+                                this.polygons.get(j).getPoints().length,
+                                p)) {
+                            dentro = true;
+                        }
+                    }
+                }
+            }
+            
+            if(!dentro){
+                    // calculo do custo da aresta (módulo do vetor entre os dois pontos)
+                    cost = Math.sqrt(Math.pow((pNew.x-vertex.getPoint().x), 2)
+                                 +Math.pow((pNew.y-vertex.getPoint().y), 2));
+                    Edge e =  new Edge(cost, v, vertex);
+                    newEdges.add(e);
+                }
+        }
+        if(newEdges.isEmpty()){
+            return;
+        }
+        Collections.sort(newEdges, Comparator.comparing(Edge::getCost));
+        this.addEdge(cost, v.getOrdem(), newEdges.get(0).getEnd().getOrdem());
+        this.addEdge(cost, newEdges.get(0).getEnd().getOrdem(),v.getOrdem());
+        System.out.println("Novo Ponto adicionado!");
+        //newEdges.forEach(x -> System.out.println(x));
+        this.computarCaminho(v.getOrdem(), newGoal);
+    }
+```
+## Telas
+  
+  Tela de Prim            |  Tela de Kruskal        | Arvore Mínima        | 
+:-------------------------:|:-------------------------:||:-------------------------:|
+![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/atv1t1.jpg)  |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/atv1t2.jpg) |  ![](https://github.com/rangel-goncalves/T.-Grafos/blob/main/GrafosAtv3/GrafosAtv3/src/Images/atv3Tree.jpg) 
+ 
